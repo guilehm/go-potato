@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  potato:
+    build: ./potato
+    image: potato
+    container_name: potato
+    command: go run main.go
+    volumes:
+      - ./potato:/go/src/potato
+    working_dir: /go/src/potato
+    ports:
+      - 8000:80
