@@ -31,11 +31,21 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		s.ChannelMessageSend(m.ChannelID, "searching for: "+text)
 		searchResponse, err := service.SearchMovie(text)
 		if err != nil {
-			s.ChannelMessageSend(m.ChannelID, "Could not search. Please try again later."+err.Error())
+			s.ChannelMessageSend(m.ChannelID, "Could not search: "+err.Error())
+			return
 		}
-		for _, result := range searchResponse.Results {
-			s.ChannelMessage(m.ChannelID, result.Title)
+
+		if len(searchResponse.Results) == 0 {
+			s.ChannelMessageSend(m.ChannelID, "Nothing found")
+			return
 		}
+
+		titles := make([]string, len(searchResponse.Results))
+		for index, result := range searchResponse.Results {
+			titles[index] = result.Title
+		}
+		s.ChannelMessageSend(m.ChannelID, strings.Join(titles, "\n"))
+
 	}
 
 }
