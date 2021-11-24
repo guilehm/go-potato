@@ -11,3 +11,7 @@ type tmdbService struct {
 	ApiKey string
 	AccessToken string
 }
+
+func (t *tmdbService) Search(text string) error {
+	return nil
+}
