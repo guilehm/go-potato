@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/bwmarrin/discordgo"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/bwmarrin/discordgo"
 )
 
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -31,12 +32,12 @@ func main() {
 		return
 	}
 
-
 	err = discord.Open()
 	if err != nil {
 		fmt.Println("error opening connection,", err)
 		return
 	}
+	discord.AddHandler(messageCreate)
 
 	fmt.Println("Bot is now running.  Press CTRL-C to exit.")
 	sc := make(chan os.Signal, 1)
@@ -47,6 +48,5 @@ func main() {
 	if err != nil {
 		return
 	}
-	discord.AddHandler(messageCreate)
 
 }
