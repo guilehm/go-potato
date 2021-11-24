@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-
+	"github.com/guilehm/go-potato/services"
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -48,5 +48,11 @@ func main() {
 	if err != nil {
 		return
 	}
+
+	tmdbAccessToken := os.Getenv("TMDB_ACCESS_TOKEN")
+	if tmdbAccessToken == "" {
+		fmt.Println("TMDB_ACCESS_TOKEN not set")
+	}
+	service := services.TMDBService{AccessToken: tmdbAccessToken}
 
 }
