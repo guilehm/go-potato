@@ -10,16 +10,15 @@ import (
 const BaseApiUrl = "https://api.themoviedb.org/3/"
 var ErrNotFound = errors.New("not found")
 
-type tmdbService struct {
-	ApiKey string
+type TMDBService struct {
 	AccessToken string
 }
 
-func (t *tmdbService) Search(text string) error {
+func (t *TMDBService) Search(text string) error {
 	return nil
 }
 
-func (t *tmdbService) makeRequest(endpoint string) ([]byte, error) {
+func (t *TMDBService) makeRequest(endpoint string) ([]byte, error) {
 	req, err := http.NewRequest("GET", fmt.Sprintf("%v%v", BaseApiUrl, endpoint), nil)
 	if err != nil {
 		return nil, err
@@ -40,4 +39,3 @@ func (t *tmdbService) makeRequest(endpoint string) ([]byte, error) {
 	}
 	return body, nil
 }
-
