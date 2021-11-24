@@ -24,6 +24,12 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 }
 
 func main() {
+	tmdbAccessToken := os.Getenv("TMDB_ACCESS_TOKEN")
+	if tmdbAccessToken == "" {
+		fmt.Println("TMDB_ACCESS_TOKEN not set")
+		return
+	}
+	//service := services.TMDBService{AccessToken: tmdbAccessToken}
 
 	discordToken := os.Getenv("DISCORD_TOKEN")
 	discord, err := discordgo.New("Bot " + discordToken)
@@ -48,11 +54,5 @@ func main() {
 	if err != nil {
 		return
 	}
-
-	tmdbAccessToken := os.Getenv("TMDB_ACCESS_TOKEN")
-	if tmdbAccessToken == "" {
-		fmt.Println("TMDB_ACCESS_TOKEN not set")
-	}
-	service := services.TMDBService{AccessToken: tmdbAccessToken}
 
 }
