@@ -13,12 +13,12 @@ import (
 var service = services.TMDBService{AccessToken: os.Getenv("TMDB_ACCESS_TOKEN")}
 
 func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
-	_ = s.ChannelTyping(m.ChannelID)
 	if m.Author.ID == s.State.User.ID {
 		return
 	}
 
 	if m.Content == "ping" {
+		_ = s.ChannelTyping(m.ChannelID)
 		_, err := s.ChannelMessageSend(m.ChannelID, "pong!")
 		if err != nil {
 			fmt.Println("could not send message for channel: " + m.ChannelID)
@@ -27,8 +27,9 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if strings.HasPrefix(m.Content, ".s") {
+		_ = s.ChannelTyping(m.ChannelID)
+
 		text := strings.Trim(m.Content[3:], " ")
-		s.ChannelMessageSend(m.ChannelID, "searching for: "+text)
 		searchResponse, err := service.SearchMovie(text)
 		if err != nil {
 			s.ChannelMessageSend(m.ChannelID, "Could not search: "+err.Error())
