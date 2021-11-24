@@ -22,8 +22,8 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if strings.HasPrefix(m.Content, ".s") {
-		text := strings.Join(strings.SplitN(m.Content, ".s", 2)[1:], "")
-		_, err := s.ChannelMessageSend(m.ChannelID, text)
+		text := strings.Trim(strings.Join(strings.SplitN(m.Content, ".s", 2)[1:], ""), " ")
+		_, err := s.ChannelMessageSend(m.ChannelID, "searching for: "+text)
 		if err != nil {
 			fmt.Println("could not send message for channel: " + m.ChannelID)
 			fmt.Println(err.Error())
