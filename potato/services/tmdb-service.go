@@ -8,13 +8,14 @@ import (
 )
 
 const BaseApiUrl = "https://api.themoviedb.org/3/"
+
 var ErrNotFound = errors.New("not found")
 
 type TMDBService struct {
 	AccessToken string
 }
 
-func (t *TMDBService) Search(text string) error {
+func (t *TMDBService) SearchMovie(text string) error {
 	return nil
 }
 
@@ -33,7 +34,7 @@ func (t *TMDBService) makeRequest(endpoint string) ([]byte, error) {
 	}
 	defer resp.Body.Close()
 
-	body, err :=  ioutil.ReadAll(resp.Body)
+	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
