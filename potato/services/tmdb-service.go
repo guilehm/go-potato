@@ -1,10 +1,13 @@
 package services
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/guilehm/go-potato/models"
 )
 
 const BaseApiUrl = "https://api.themoviedb.org/3/"
@@ -15,8 +18,17 @@ type TMDBService struct {
 	AccessToken string
 }
 
-func (t *TMDBService) SearchMovie(text string) error {
-	return nil
+func (t *TMDBService) SearchMovie(text string) (models.MovieSearchResponse, error) {
+	var response models.MovieSearchResponse
+	body, err := t.makeRequest("search/movie?query=" + text)
+	if err != nil {
+		return response, err
+	}
+
+	if err = json.Unmarshal(body, &response); err != nil {
+		return response, err
+	}
+	return response, nil
 }
 
 func (t *TMDBService) makeRequest(endpoint string) ([]byte, error) {
