@@ -5,7 +5,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"github.com/guilehm/go-potato/services"
 	"github.com/bwmarrin/discordgo"
 )
 
