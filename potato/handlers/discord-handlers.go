@@ -8,7 +8,7 @@ import (
 )
 
 func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
-
+	_ = s.ChannelTyping(m.ChannelID)
 	if m.Author.ID == s.State.User.ID {
 		return
 	}
