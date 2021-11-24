@@ -16,3 +16,10 @@ type MovieSearchResult struct {
 	VoteAverage      int     `json:"vote_average"`
 	VoteCount        int     `json:"vote_count"`
 }
+
+type MovieSearchResponse struct {
+	Page         int                 `json:"page"`
+	Results      []MovieSearchResult `json:"results"`
+	TotalPages   int                 `json:"total_pages"`
+	TotalResults int                 `json:"total_results"`
+}
