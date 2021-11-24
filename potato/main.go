@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/guilehm/go-potato/handlers"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/guilehm/go-potato/handlers"
 
 	"github.com/bwmarrin/discordgo"
 )
