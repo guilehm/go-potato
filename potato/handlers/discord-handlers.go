@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/guilehm/go-potato/services"
 
@@ -45,7 +46,21 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		for index, result := range searchResponse.Results {
 			titles[index] = result.Title
 		}
-		s.ChannelMessageSend(m.ChannelID, strings.Join(titles, "\n"))
+		_, err = s.ChannelMessageSendEmbed(m.ChannelID, &discordgo.MessageEmbed{
+			URL:         "",
+			Type:        "",
+			Title:       "Movies found:",
+			Description: strings.Join(titles, "\n"),
+			Timestamp:   time.Now().Format("2006-01-02 15:04"),
+			Color:       3447003,
+			Footer:      nil,
+			Image:       nil,
+			Thumbnail:   nil,
+			Video:       nil,
+			Provider:    nil,
+			Author:      nil,
+			Fields:      nil,
+		})
 
 	}
 
