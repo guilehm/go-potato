@@ -63,7 +63,7 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 	tvShowID := strings.Trim(m.Content[4:], " ")
 	tvShow, err := service.GetTVShowDetail(tvShowID)
 	if err != nil {
-		s.ChannelMessageSend(m.ChannelID, "Could not get tv show detail: "+err.Error())
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not get tv show detail: "+err.Error())
 		return
 	}
 
@@ -121,9 +121,9 @@ func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 		ctx, bson.M{"id": m.Author.ID}, bson.D{{Key: "$set", Value: m.Author}}, &opt,
 	)
 	if err != nil {
-		s.ChannelMessageSend(m.ChannelID, "Could not update user: "+err.Error())
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not update user: "+err.Error())
 	} else {
-		s.ChannelMessageSend(m.ChannelID, "User successfully updated!")
+		_, _ = s.ChannelMessageSend(m.ChannelID, "User successfully updated!")
 	}
 
 }
@@ -134,12 +134,12 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 	text := strings.Trim(m.Content[3:], " ")
 	searchResponse, err := service.SearchMovies(text)
 	if err != nil {
-		s.ChannelMessageSend(m.ChannelID, "Could not search movie: "+err.Error())
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not search movie: "+err.Error())
 		return
 	}
 
 	if len(searchResponse.Results) == 0 {
-		s.ChannelMessageSend(m.ChannelID, `Nothing found for "`+text+`"`)
+		_, _ = s.ChannelMessageSend(m.ChannelID, `Nothing found for "`+text+`"`)
 		return
 	}
 
