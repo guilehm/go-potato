@@ -76,11 +76,6 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	embedFields := []*discordgo.MessageEmbedField{
 		{
-			Name:   "Tagline",
-			Value:  tvShow.Tagline,
-			Inline: true,
-		},
-		{
 			Name:   "Status",
 			Value:  tvShow.Status,
 			Inline: true,
@@ -90,6 +85,17 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 			Value:  fmt.Sprintf("%.0f", tvShow.VoteAverage*10),
 			Inline: true,
 		},
+	}
+
+	if tvShow.Tagline != "" {
+		embedFields = append(
+			embedFields,
+			&discordgo.MessageEmbedField{
+				Name:   "Tagline",
+				Value:  tvShow.Tagline,
+				Inline: true,
+			},
+		)
 	}
 
 	_, err = s.ChannelMessageSendEmbed(
