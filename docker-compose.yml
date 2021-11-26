@@ -13,6 +13,8 @@ services:
       - "8000:80"
     env_file:
       - .env
+    environment:
+      MONGODB_URI: mongodb://go-potato-mongo:27017/go-potato
 
   mongo:
     container_name: go-potato-mongo
