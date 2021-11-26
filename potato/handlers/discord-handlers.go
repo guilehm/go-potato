@@ -89,12 +89,14 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	if tvShow.Tagline != "" {
 		embedFields = append(
-			embedFields,
-			&discordgo.MessageEmbedField{
-				Name:   "Tagline",
-				Value:  tvShow.Tagline,
-				Inline: true,
+			[]*discordgo.MessageEmbedField{
+				{
+					Name:   "Tagline",
+					Value:  tvShow.Tagline,
+					Inline: true,
+				},
 			},
+			embedFields...,
 		)
 	}
 
