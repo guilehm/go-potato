@@ -128,7 +128,6 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 			thumbnail,
 		),
 	)
-
 	if err != nil {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Ops... Something weird happened")
 	}
@@ -190,7 +189,7 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 	for index, result := range searchResponse.Results {
 		resultTitles[index] = fmt.Sprintf("%v *(%v)*", result.Title, result.ID)
 	}
-	_, err = s.ChannelMessageSendEmbed(
+	message, err := s.ChannelMessageSendEmbed(
 		m.ChannelID,
 		helpers.MakeEmbed(
 			"",
@@ -203,6 +202,13 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 	)
 	if err != nil {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Ops... Something weird happened")
+	}
+
+	if searchResponse.Page < searchResponse.TotalPages {
+		_ = s.MessageReactionAdd(m.ChannelID, message.ID, "⏭️")
+	}
+	if searchResponse.Page > 1 {
+		_ = s.MessageReactionAdd(m.ChannelID, message.ID, "⏮️")
 	}
 }
 
@@ -225,7 +231,7 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 	for index, result := range searchResponse.Results {
 		resultTitles[index] = fmt.Sprintf("%v *(%v)*", result.Name, result.ID)
 	}
-	_, err = s.ChannelMessageSendEmbed(
+	message, err := s.ChannelMessageSendEmbed(
 		m.ChannelID,
 		helpers.MakeEmbed(
 			"",
@@ -239,4 +245,12 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if err != nil {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Ops... Something weird happened")
 	}
+
+	if searchResponse.Page < searchResponse.TotalPages {
+		_ = s.MessageReactionAdd(m.ChannelID, message.ID, "⏭️")
+	}
+	if searchResponse.Page > 1 {
+		_ = s.MessageReactionAdd(m.ChannelID, message.ID, "⏮️")
+	}
+
 }
