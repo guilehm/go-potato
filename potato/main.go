@@ -17,7 +17,6 @@ func main() {
 		fmt.Println("TMDB_ACCESS_TOKEN not set")
 		return
 	}
-	//service := services.TMDBService{AccessToken: tmdbAccessToken}
 
 	discordToken := os.Getenv("DISCORD_TOKEN")
 	discord, err := discordgo.New("Bot " + discordToken)
