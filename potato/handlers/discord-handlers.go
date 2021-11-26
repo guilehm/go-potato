@@ -33,24 +33,24 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		text := strings.Trim(m.Content[3:], " ")
 		searchResponse, err := service.SearchMovie(text)
 		if err != nil {
-			s.ChannelMessageSend(m.ChannelID, "Could not search: "+err.Error())
+			s.ChannelMessageSend(m.ChannelID, "Could not search movies: "+err.Error())
 			return
 		}
 
 		if len(searchResponse.Results) == 0 {
-			s.ChannelMessageSend(m.ChannelID, "Nothing found")
+			s.ChannelMessageSend(m.ChannelID, "Nothing found for "+text)
 			return
 		}
 
-		titles := make([]string, len(searchResponse.Results))
+		movieTitles := make([]string, len(searchResponse.Results))
 		for index, result := range searchResponse.Results {
-			titles[index] = result.Title
+			movieTitles[index] = result.Title
 		}
 		_, err = s.ChannelMessageSendEmbed(m.ChannelID, &discordgo.MessageEmbed{
 			URL:         "",
 			Type:        "",
 			Title:       "Movies found:",
-			Description: strings.Join(titles, "\n"),
+			Description: strings.Join(movieTitles, "\n"),
 			Timestamp:   time.Now().Format("2006-01-02 15:04"),
 			Color:       3447003,
 			Footer: &discordgo.MessageEmbedFooter{
