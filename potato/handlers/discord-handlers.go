@@ -93,7 +93,7 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 				{
 					Name:   "Tagline",
 					Value:  tvShow.Tagline,
-					Inline: true,
+					Inline: false,
 				},
 			},
 			embedFields...,
