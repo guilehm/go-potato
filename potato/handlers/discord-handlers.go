@@ -77,8 +77,8 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 	thumbnail := &discordgo.MessageEmbedThumbnail{
 		URL:      "https://www.themoviedb.org/t/p/w300" + tvShow.PosterPath,
 		ProxyURL: "",
-		Width:    0,
-		Height:   0,
+		Width:    300,
+		Height:   169,
 	}
 
 	embedFields := []*discordgo.MessageEmbedField{
