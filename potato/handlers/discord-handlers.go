@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -82,7 +83,12 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 		},
 		{
 			Name:   "User Score",
-			Value:  fmt.Sprintf("%.0f", tvShow.VoteAverage*10),
+			Value:  fmt.Sprintf("%.0f", tvShow.VoteAverage*10) + "%",
+			Inline: true,
+		},
+		{
+			Name:   "No. of Seasons",
+			Value:  strconv.Itoa(tvShow.NumberOfSeasons),
 			Inline: true,
 		},
 	}
