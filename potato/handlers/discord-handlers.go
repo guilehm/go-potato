@@ -68,11 +68,17 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	embedImage := discordgo.MessageEmbedImage{
+	embedImage := &discordgo.MessageEmbedImage{
 		URL:      "https://www.themoviedb.org/t/p/w300" + tvShow.BackdropPath,
 		ProxyURL: "",
 		Width:    300,
 		Height:   169,
+	}
+	thumbnail := &discordgo.MessageEmbedThumbnail{
+		URL:      "https://www.themoviedb.org/t/p/w300" + tvShow.PosterPath,
+		ProxyURL: "",
+		Width:    0,
+		Height:   0,
 	}
 
 	embedFields := []*discordgo.MessageEmbedField{
@@ -117,8 +123,9 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 			),
 			tvShow.Name,
 			tvShow.Overview,
-			&embedImage,
+			embedImage,
 			embedFields,
+			thumbnail,
 		),
 	)
 
@@ -191,6 +198,7 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 			strings.Join(resultTitles, "\n"),
 			&discordgo.MessageEmbedImage{},
 			[]*discordgo.MessageEmbedField{},
+			&discordgo.MessageEmbedThumbnail{},
 		),
 	)
 	if err != nil {
@@ -225,6 +233,7 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 			strings.Join(resultTitles, "\n"),
 			&discordgo.MessageEmbedImage{},
 			[]*discordgo.MessageEmbedField{},
+			&discordgo.MessageEmbedThumbnail{},
 		),
 	)
 	if err != nil {
