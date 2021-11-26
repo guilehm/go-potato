@@ -6,7 +6,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-func MakeEmbed(url, title, description string, image *discordgo.MessageEmbedImage) *discordgo.MessageEmbed {
+func MakeEmbed(url, title, description string, image *discordgo.MessageEmbedImage, fields []*discordgo.MessageEmbedField) *discordgo.MessageEmbed {
 	return &discordgo.MessageEmbed{
 		URL:         url,
 		Type:        "",
@@ -29,6 +29,6 @@ func MakeEmbed(url, title, description string, image *discordgo.MessageEmbedImag
 			URL:          "https://www.themoviedb.org/",
 			ProxyIconURL: "",
 		},
-		Fields: nil,
+		Fields: fields,
 	}
 }
