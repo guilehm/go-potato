@@ -33,7 +33,7 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		text := strings.Trim(m.Content[3:], " ")
 		searchResponse, err := service.SearchMovie(text)
 		if err != nil {
-			s.ChannelMessageSend(m.ChannelID, "Could not search movies: "+err.Error())
+			s.ChannelMessageSend(m.ChannelID, "Could not search movie: "+err.Error())
 			return
 		}
 
