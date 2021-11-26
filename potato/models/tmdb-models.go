@@ -39,3 +39,10 @@ type TVSearchResult struct {
 	VoteAverage      float64  `json:"vote_average"`
 	VoteCount        int      `json:"vote_count"`
 }
+
+type TVSearchResponse struct {
+	Page         int              `json:"page"`
+	Results      []TVSearchResult `json:"results"`
+	TotalPages   int              `json:"total_pages"`
+	TotalResults int              `json:"total_results"`
+}
