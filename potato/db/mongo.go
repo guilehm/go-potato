@@ -20,3 +20,10 @@ func Connection() *mongo.Client {
 	fmt.Println("connected to MongoDB")
 	return client
 }
+
+func DiscordUserCollection() *mongo.Collection {
+	client := Connection()
+	database := client.Database("go-potato")
+	usersCollection := database.Collection("users")
+	return usersCollection
+}
