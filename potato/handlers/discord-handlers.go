@@ -86,6 +86,7 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 			tvShow.Name,
 			tvShow.Overview,
 			&embedImage,
+			[]*discordgo.MessageEmbedField{},
 		),
 	)
 
@@ -153,6 +154,7 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 			"Movies found:",
 			strings.Join(resultTitles, "\n"),
 			&discordgo.MessageEmbedImage{},
+			[]*discordgo.MessageEmbedField{},
 		),
 	)
 }
@@ -183,6 +185,7 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 			"TV Shows found:",
 			strings.Join(resultTitles, "\n"),
 			&discordgo.MessageEmbedImage{},
+			[]*discordgo.MessageEmbedField{},
 		),
 	)
 }
