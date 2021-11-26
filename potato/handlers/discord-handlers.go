@@ -114,6 +114,10 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 		),
 	)
 
+	if err != nil {
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not generate embed: "+err.Error())
+	}
+
 	go func() {
 
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
