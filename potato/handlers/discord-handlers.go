@@ -74,6 +74,24 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 		Height:   169,
 	}
 
+	embedFields := []*discordgo.MessageEmbedField{
+		{
+			Name:   "Tagline",
+			Value:  tvShow.Tagline,
+			Inline: true,
+		},
+		{
+			Name:   "Status",
+			Value:  tvShow.Status,
+			Inline: true,
+		},
+		{
+			Name:   "User Score",
+			Value:  fmt.Sprintf("%.0f", tvShow.VoteAverage*10),
+			Inline: true,
+		},
+	}
+
 	_, err = s.ChannelMessageSendEmbed(
 		m.ChannelID,
 		helpers.MakeEmbed(
@@ -86,7 +104,7 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 			tvShow.Name,
 			tvShow.Overview,
 			&embedImage,
-			[]*discordgo.MessageEmbedField{},
+			embedFields,
 		),
 	)
 
