@@ -38,7 +38,7 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 
 		if len(searchResponse.Results) == 0 {
-			s.ChannelMessageSend(m.ChannelID, "Nothing found for "+text)
+			s.ChannelMessageSend(m.ChannelID, `Nothing found for "`+text+`"`)
 			return
 		}
 
