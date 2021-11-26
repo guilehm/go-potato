@@ -10,6 +10,17 @@ services:
       - ./potato:/go/src/potato
     working_dir: /go/src/potato
     ports:
-      - 8000:80
+      - "8000:80"
     env_file:
       - .env
+
+  mongo:
+    container_name: go-potato-mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+
+volumes:
+  mongodb-data:
