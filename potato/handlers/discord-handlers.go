@@ -27,7 +27,7 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		}
 	}
 
-	if strings.HasPrefix(m.Content, ".s") {
+	if strings.HasPrefix(m.Content, ".m") {
 		_ = s.ChannelTyping(m.ChannelID)
 
 		text := strings.Trim(m.Content[3:], " ")
