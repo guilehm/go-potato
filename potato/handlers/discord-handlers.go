@@ -117,7 +117,7 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 	)
 
 	if err != nil {
-		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not generate embed: "+err.Error())
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Ops... Something weird happened")
 	}
 
 	go func() {
@@ -187,6 +187,9 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 			[]*discordgo.MessageEmbedField{},
 		),
 	)
+	if err != nil {
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Ops... Something weird happened")
+	}
 }
 
 func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -195,12 +198,12 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 	text := strings.Trim(m.Content[3:], " ")
 	searchResponse, err := service.SearchTvShows(text)
 	if err != nil {
-		s.ChannelMessageSend(m.ChannelID, "Could not search Tv Shows: "+err.Error())
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not search Tv Shows: "+err.Error())
 		return
 	}
 
 	if len(searchResponse.Results) == 0 {
-		s.ChannelMessageSend(m.ChannelID, `Nothing found for "`+text+`"`)
+		_, _ = s.ChannelMessageSend(m.ChannelID, `Nothing found for "`+text+`"`)
 		return
 	}
 
@@ -218,4 +221,7 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 			[]*discordgo.MessageEmbedField{},
 		),
 	)
+	if err != nil {
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Ops... Something weird happened")
+	}
 }
