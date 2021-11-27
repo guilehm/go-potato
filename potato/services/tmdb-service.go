@@ -44,6 +44,19 @@ func (t *TMDBService) SearchTvShows(text string) (models.TVSearchResponse, error
 	return response, nil
 }
 
+func (t *TMDBService) GetTVShowDetail(id string) (models.TVShow, error) {
+	var tvShow models.TVShow
+	body, err := t.makeRequest("tv/" + id)
+	if err != nil {
+		return tvShow, err
+	}
+
+	if err = json.Unmarshal(body, &tvShow); err != nil {
+		return tvShow, err
+	}
+	return tvShow, nil
+}
+
 func (t *TMDBService) makeRequest(endpoint string) ([]byte, error) {
 	req, err := http.NewRequest("GET", fmt.Sprintf("%v%v", BaseApiUrl, endpoint), nil)
 	if err != nil {
