@@ -39,6 +39,26 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 }
 
+func handleFirstInteraction(s *discordgo.Session, m *discordgo.MessageCreate) {
+	_ = s.ChannelTyping(m.ChannelID)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	upsert := true
+	opt := options.UpdateOptions{Upsert: &upsert}
+
+	_, err := db.UsersCollection.UpdateOne(
+		ctx, bson.M{"id": m.Author.ID}, bson.D{{Key: "$set", Value: m.Author}}, &opt,
+	)
+	if err != nil {
+		s.ChannelMessageSend(m.ChannelID, "Could not update user: "+err.Error())
+	} else {
+		s.ChannelMessageSend(m.ChannelID, "User successfully updated!")
+	}
+
+}
+
 func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 	_ = s.ChannelTyping(m.ChannelID)
 
