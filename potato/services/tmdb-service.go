@@ -18,7 +18,7 @@ type TMDBService struct {
 	AccessToken string
 }
 
-func (t *TMDBService) SearchMovie(text string) (models.MovieSearchResponse, error) {
+func (t *TMDBService) SearchMovies(text string) (models.MovieSearchResponse, error) {
 	var response models.MovieSearchResponse
 	body, err := t.makeRequest("search/movie?query=" + text)
 	if err != nil {

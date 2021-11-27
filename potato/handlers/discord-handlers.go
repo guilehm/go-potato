@@ -76,7 +76,7 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 	_ = s.ChannelTyping(m.ChannelID)
 
 	text := strings.Trim(m.Content[3:], " ")
-	searchResponse, err := service.SearchMovie(text)
+	searchResponse, err := service.SearchMovies(text)
 	if err != nil {
 		s.ChannelMessageSend(m.ChannelID, "Could not search movie: "+err.Error())
 		return
