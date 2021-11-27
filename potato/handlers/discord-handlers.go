@@ -180,16 +180,13 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	resultTitles := make([]string, len(searchResponse.Results))
-	for index, result := range searchResponse.Results {
-		resultTitles[index] = fmt.Sprintf("%v *(%v)*", result.Name, result.ID)
-	}
+	resultTitles := helpers.MakeTVShowSearchResultTitles(searchResponse)
 	message, err := s.ChannelMessageSendEmbed(
 		m.ChannelID,
 		helpers.MakeEmbed(
 			"",
 			"TV Shows found:",
-			strings.Join(resultTitles, "\n"),
+			resultTitles,
 			&discordgo.MessageEmbedImage{},
 			[]*discordgo.MessageEmbedField{},
 			&discordgo.MessageEmbedThumbnail{},
