@@ -15,6 +15,7 @@ var database = client.Database("go-potato")
 
 var UsersCollection = database.Collection("users")
 var TVShowsCollection = database.Collection("tv-series")
+var MessagesCollection = database.Collection("messages")
 
 func Connection() *mongo.Client {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
