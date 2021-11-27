@@ -77,7 +77,12 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 	_, err = s.ChannelMessageSendEmbed(
 		m.ChannelID,
 		helpers.MakeEmbed(
-			"",
+			fmt.Sprintf(
+				"%v/%v-%v",
+				"https://www.themoviedb.org/tv",
+				tvShow.ID,
+				strings.ReplaceAll(tvShow.Name, " ", "-"),
+			),
 			tvShow.Name,
 			tvShow.Overview,
 			&embedImage,
