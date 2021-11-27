@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
@@ -14,21 +15,18 @@ import (
 func main() {
 	tmdbAccessToken := os.Getenv("TMDB_ACCESS_TOKEN")
 	if tmdbAccessToken == "" {
-		fmt.Println("TMDB_ACCESS_TOKEN not set")
-		return
+		log.Fatal("TMDB_ACCESS_TOKEN not set")
 	}
 
 	discordToken := os.Getenv("DISCORD_TOKEN")
 	discord, err := discordgo.New("Bot " + discordToken)
 	if err != nil {
-		fmt.Println("error starting bot", err)
-		return
+		log.Fatal("error starting bot", err)
 	}
 
 	err = discord.Open()
 	if err != nil {
-		fmt.Println("error opening connection,", err)
-		return
+		log.Fatal("error opening connection,", err)
 	}
 	discord.AddHandler(handlers.MessageCreate)
 	discord.AddHandler(handlers.ReactionAdd)
