@@ -31,6 +31,8 @@ func main() {
 		return
 	}
 	discord.AddHandler(handlers.MessageCreate)
+	discord.AddHandler(handlers.ReactionAdd)
+	discord.AddHandler(handlers.ReactionRemove)
 
 	fmt.Println("Bot is now running.  Press CTRL-C to exit.")
 	sc := make(chan os.Signal, 1)

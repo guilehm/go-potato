@@ -21,6 +21,12 @@ import (
 
 var service = services.TMDBService{AccessToken: os.Getenv("TMDB_ACCESS_TOKEN")}
 
+func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
+}
+
+func ReactionRemove(s *discordgo.Session, r *discordgo.MessageReactionRemove) {
+}
+
 func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == s.State.User.ID {
 		return
