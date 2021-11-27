@@ -181,9 +181,13 @@ func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 	upsert := true
 	opt := options.UpdateOptions{Upsert: &upsert}
 
-	// TODO: add avatar_url field (m.Author.AvatarURL(""))
+	user := models.UserDiscord{
+		User:      *m.Author,
+		AvatarUrl: m.Author.AvatarURL(""),
+	}
+
 	_, err := db.UsersCollection.UpdateOne(
-		ctx, bson.M{"id": m.Author.ID}, bson.D{{Key: "$set", Value: m.Author}}, &opt,
+		ctx, bson.M{"id": m.Author.ID}, bson.D{{Key: "$set", Value: user}}, &opt,
 	)
 	if err != nil {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not update user: "+err.Error())
