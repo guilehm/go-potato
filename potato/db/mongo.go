@@ -10,6 +10,11 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+var client = Connection()
+var database = client.Database("go-potato")
+
+var UsersCollection = database.Collection("users")
+
 func Connection() *mongo.Client {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -19,11 +24,4 @@ func Connection() *mongo.Client {
 	}
 	fmt.Println("connected to MongoDB")
 	return client
-}
-
-func DiscordUserCollection() *mongo.Collection {
-	client := Connection()
-	database := client.Database("go-potato")
-	usersCollection := database.Collection("users")
-	return usersCollection
 }
