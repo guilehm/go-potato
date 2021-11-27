@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strconv"
 
 	"github.com/guilehm/go-potato/models"
 )
@@ -19,9 +20,14 @@ type TMDBService struct {
 	AccessToken string
 }
 
-func (t *TMDBService) SearchMovies(text string) (models.MovieSearchResponse, error) {
+func (t *TMDBService) SearchMovies(text string, page int) (models.MovieSearchResponse, error) {
 	var response models.MovieSearchResponse
-	body, err := t.makeRequest("search/movie?query=" + url.QueryEscape(text))
+	queries := url.Values{
+		"query": []string{url.QueryEscape(text)},
+		"page":  []string{strconv.Itoa(page)},
+	}
+
+	body, err := t.makeRequest("search/movie", queries)
 	if err != nil {
 		return response, err
 	}
@@ -32,9 +38,15 @@ func (t *TMDBService) SearchMovies(text string) (models.MovieSearchResponse, err
 	return response, nil
 }
 
-func (t *TMDBService) SearchTvShows(text string) (models.TVSearchResponse, error) {
+func (t *TMDBService) SearchTvShows(text string, page int) (models.TVSearchResponse, error) {
 	var response models.TVSearchResponse
-	body, err := t.makeRequest("search/tv?query=" + url.QueryEscape(text))
+
+	queries := url.Values{
+		"query": []string{url.QueryEscape(text)},
+		"page":  []string{strconv.Itoa(page)},
+	}
+
+	body, err := t.makeRequest("search/tv", queries)
 	if err != nil {
 		return response, err
 	}
@@ -47,7 +59,7 @@ func (t *TMDBService) SearchTvShows(text string) (models.TVSearchResponse, error
 
 func (t *TMDBService) GetTVShowDetail(id string) (models.TVShow, error) {
 	var tvShow models.TVShow
-	body, err := t.makeRequest("tv/" + id)
+	body, err := t.makeRequest("tv/"+id, nil)
 	if err != nil {
 		return tvShow, err
 	}
