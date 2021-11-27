@@ -7,6 +7,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/guilehm/go-potato/models"
+
 	"github.com/guilehm/go-potato/db"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -21,9 +23,11 @@ import (
 var service = services.TMDBService{AccessToken: os.Getenv("TMDB_ACCESS_TOKEN")}
 
 func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
+	_, _ = s.ChannelMessageEdit(r.ChannelID, r.MessageID, "replaced")
 }
 
 func ReactionRemove(s *discordgo.Session, r *discordgo.MessageReactionRemove) {
+	_, _ = s.ChannelMessageEdit(r.ChannelID, r.MessageID, "overwritten")
 }
 
 func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -77,7 +81,6 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 		m.ChannelID,
 		helpers.GetEmbedForTVShow(tvShow),
 	)
-
 	if err != nil {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Ops... Something weird happened")
 	}
@@ -194,6 +197,22 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 	)
 	if err != nil {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Ops... Something weird happened")
+	} else {
+		go func() {
+			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+			defer cancel()
+			upsert := true
+			opt := options.UpdateOptions{Upsert: &upsert}
+
+			messageData := models.MessageData{
+				MessageID: message.ID,
+				Text:      text,
+				Page:      1,
+			}
+			_, err = db.MessagesDataCollection.UpdateOne(
+				ctx, bson.M{"message_id": message.ID}, bson.D{{Key: "$set", Value: &messageData}}, &opt,
+			)
+		}()
 	}
 
 	if searchResponse.Page < searchResponse.TotalPages {
