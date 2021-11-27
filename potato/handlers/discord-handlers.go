@@ -50,6 +50,32 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
+	if strings.HasPrefix(m.Content, ".td ") {
+		handleTVShowDetail(s, m)
+		return
+	}
+
+}
+
+func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
+	_ = s.ChannelTyping(m.ChannelID)
+
+	tvShowID := strings.Trim(m.Content[4:], " ")
+	tvShow, err := service.GetTVShowDetail(tvShowID)
+	if err != nil {
+		s.ChannelMessageSend(m.ChannelID, "Could not get tv show detail: "+err.Error())
+		return
+	}
+
+	_, err = s.ChannelMessageSendEmbed(
+		m.ChannelID,
+		helpers.MakeEmbed(
+			"",
+			tvShow.Name,
+			tvShow.Overview,
+		),
+	)
+
 }
 
 func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -90,7 +116,7 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	resultTitles := make([]string, len(searchResponse.Results))
 	for index, result := range searchResponse.Results {
-		resultTitles[index] = result.Title
+		resultTitles[index] = fmt.Sprintf("%v *(%v)*", result.Title, result.ID)
 	}
 	_, err = s.ChannelMessageSendEmbed(
 		m.ChannelID,
@@ -119,7 +145,7 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	resultTitles := make([]string, len(searchResponse.Results))
 	for index, result := range searchResponse.Results {
-		resultTitles[index] = result.Name
+		resultTitles[index] = fmt.Sprintf("%v *(%v)*", result.Name, result.ID)
 	}
 	_, err = s.ChannelMessageSendEmbed(
 		m.ChannelID,
