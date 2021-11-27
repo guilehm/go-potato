@@ -124,7 +124,7 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 	_ = s.ChannelTyping(m.ChannelID)
 
 	text := strings.Trim(m.Content[3:], " ")
-	searchResponse, err := service.SearchMovies(text)
+	searchResponse, err := service.SearchMovies(text, 1)
 	if err != nil {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not search movie: "+err.Error())
 		return
@@ -166,7 +166,7 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 	_ = s.ChannelTyping(m.ChannelID)
 
 	text := strings.Trim(m.Content[3:], " ")
-	searchResponse, err := service.SearchTvShows(text)
+	searchResponse, err := service.SearchTvShows(text, 1)
 	if err != nil {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not search Tv Shows: "+err.Error())
 		return
