@@ -76,6 +76,21 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 		),
 	)
 
+	go func() {
+
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+
+		upsert := true
+		opt := options.UpdateOptions{Upsert: &upsert}
+
+		_, err := db.TVShowsCollection.UpdateOne(
+			ctx, bson.M{"id": tvShow.ID}, bson.D{{Key: "$set", Value: tvShow}}, &opt,
+		)
+		if err != nil {
+			fmt.Println("could not update TV Show #" + tvShowID)
+		}
+	}()
 }
 
 func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
