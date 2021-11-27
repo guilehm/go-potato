@@ -25,8 +25,8 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	if strings.ToLower(m.Content) == "oi" {
-		handleFirstInteraction(s, m)
+	if strings.ToLower(m.Content) == "hello" {
+		handleHello(s, m)
 		return
 	}
 
@@ -52,7 +52,7 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 }
 
-func handleFirstInteraction(s *discordgo.Session, m *discordgo.MessageCreate) {
+func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 	_ = s.ChannelTyping(m.ChannelID)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
