@@ -6,7 +6,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-func MakeEmbed(url, title, description string) *discordgo.MessageEmbed {
+func MakeEmbed(url, title, description string, image *discordgo.MessageEmbedImage) *discordgo.MessageEmbed {
 	return &discordgo.MessageEmbed{
 		URL:         url,
 		Type:        "",
@@ -19,7 +19,7 @@ func MakeEmbed(url, title, description string) *discordgo.MessageEmbed {
 			Text:         "go potato",
 			ProxyIconURL: "",
 		},
-		Image:     nil,
+		Image:     image,
 		Thumbnail: nil,
 		Video:     nil,
 		Provider:  nil,
