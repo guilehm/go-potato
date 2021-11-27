@@ -25,18 +25,19 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	if m.Content == "oi" {
+	if strings.ToLower(m.Content) == "oi" {
 		handleFirstInteraction(s, m)
 		return
 	}
 
-	if m.Content == "ping" {
+	if strings.ToLower(m.Content) == "ping" {
 		_ = s.ChannelTyping(m.ChannelID)
 		_, err := s.ChannelMessageSend(m.ChannelID, "pong!")
 		if err != nil {
 			fmt.Println("could not send message for channel: " + m.ChannelID)
 			fmt.Println(err.Error())
 		}
+		return
 	}
 
 	if strings.HasPrefix(m.Content, ".m") {
