@@ -205,9 +205,10 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 			opt := options.UpdateOptions{Upsert: &upsert}
 
 			messageData := models.MessageData{
-				MessageID: message.ID,
-				Text:      text,
-				Page:      1,
+				MessageID:  message.ID,
+				Text:       text,
+				Page:       1,
+				TotalPages: searchResponse.TotalPages,
 			}
 			_, err = db.MessagesDataCollection.UpdateOne(
 				ctx, bson.M{"message_id": message.ID}, bson.D{{Key: "$set", Value: &messageData}}, &opt,
