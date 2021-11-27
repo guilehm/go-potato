@@ -28,7 +28,7 @@ type TVSearchResult struct {
 	BackdropPath     string   `json:"backdrop_path"`
 	FirstAirDate     string   `json:"first_air_date"`
 	GenreIds         []int    `json:"genre_ids"`
-	Id               int      `json:"id"`
+	ID               int      `json:"id"`
 	Name             string   `json:"name"`
 	OriginCountry    []string `json:"origin_country"`
 	OriginalLanguage string   `json:"original_language"`
