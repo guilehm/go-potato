@@ -20,41 +20,34 @@ type TMDBService struct {
 	AccessToken string
 }
 
-func (t *TMDBService) SearchMovies(text string, page int) (models.MovieSearchResponse, error) {
-	var response models.MovieSearchResponse
+func (t *TMDBService) makeSearch(i interface{}, page int, text, endpoint string) error {
 	queries := url.Values{
 		"query": []string{url.QueryEscape(text)},
 		"page":  []string{strconv.Itoa(page)},
 	}
 
-	body, err := t.makeRequest("search/movie", queries)
+	body, err := t.makeRequest(endpoint, queries)
 	if err != nil {
-		return response, err
+		return err
 	}
 
-	if err = json.Unmarshal(body, &response); err != nil {
-		return response, err
+	if err = json.Unmarshal(body, &i); err != nil {
+		return err
 	}
-	return response, nil
+	return nil
+
+}
+
+func (t *TMDBService) SearchMovies(text string, page int) (models.MovieSearchResponse, error) {
+	var response models.MovieSearchResponse
+	err := t.makeSearch(&response, page, text, "search/movie")
+	return response, err
 }
 
 func (t *TMDBService) SearchTvShows(text string, page int) (models.TVSearchResponse, error) {
 	var response models.TVSearchResponse
-
-	queries := url.Values{
-		"query": []string{url.QueryEscape(text)},
-		"page":  []string{strconv.Itoa(page)},
-	}
-
-	body, err := t.makeRequest("search/tv", queries)
-	if err != nil {
-		return response, err
-	}
-
-	if err = json.Unmarshal(body, &response); err != nil {
-		return response, err
-	}
-	return response, nil
+	err := t.makeSearch(&response, page, text, "search/tv")
+	return response, err
 }
 
 func (t *TMDBService) GetTVShowDetail(id string) (models.TVShow, error) {
