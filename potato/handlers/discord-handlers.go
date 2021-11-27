@@ -26,7 +26,6 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	if r.UserID == s.State.User.ID {
 		return
 	}
-	_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, r.Emoji.Name, r.UserID)
 
 	var m models.MessageData
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -50,6 +49,11 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	} else {
 		return
 	}
+
+	_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", s.State.User.ID)
+	_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", r.UserID)
+	_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮", s.State.User.ID)
+	_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮", r.UserID)
 
 	searchResponse, err := service.SearchTvShows(m.Text, page)
 	if err != nil {
@@ -89,9 +93,11 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	}
 	if searchResponse.Page == searchResponse.TotalPages {
 		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", s.State.User.ID)
+		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", r.UserID)
 	}
 	if searchResponse.Page == 1 {
 		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", s.State.User.ID)
+		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", r.UserID)
 	}
 
 }
