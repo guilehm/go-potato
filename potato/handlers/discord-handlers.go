@@ -1,9 +1,16 @@
 package handlers
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"strings"
+	"time"
+
+	"github.com/guilehm/go-potato/db"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 
 	"github.com/guilehm/go-potato/helpers"
 	"github.com/guilehm/go-potato/services"
@@ -15,6 +22,11 @@ var service = services.TMDBService{AccessToken: os.Getenv("TMDB_ACCESS_TOKEN")}
 
 func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == s.State.User.ID {
+		return
+	}
+
+	if m.Content == "oi" {
+		handleFirstInteraction(s, m)
 		return
 	}
 
