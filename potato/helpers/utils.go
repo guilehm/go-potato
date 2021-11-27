@@ -1,7 +1,12 @@
 package helpers
 
 import (
+	"fmt"
+	"strconv"
+	"strings"
 	"time"
+
+	"github.com/guilehm/go-potato/models"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -38,4 +43,65 @@ func MakeEmbed(
 		},
 		Fields: fields,
 	}
+}
+
+func GetEmbedForTVShow(tvShow models.TVShow) *discordgo.MessageEmbed {
+	embedImage := &discordgo.MessageEmbedImage{
+		URL:      "https://www.themoviedb.org/t/p/w300" + tvShow.BackdropPath,
+		ProxyURL: "",
+		Width:    300,
+		Height:   169,
+	}
+	thumbnail := &discordgo.MessageEmbedThumbnail{
+		URL:      "https://www.themoviedb.org/t/p/w300" + tvShow.PosterPath,
+		ProxyURL: "",
+		Width:    300,
+		Height:   169,
+	}
+
+	embedFields := []*discordgo.MessageEmbedField{
+		{
+			Name:   "Status",
+			Value:  tvShow.Status,
+			Inline: true,
+		},
+		{
+			Name:   "User Score",
+			Value:  fmt.Sprintf("%.0f", tvShow.VoteAverage*10) + "%",
+			Inline: true,
+		},
+		{
+			Name:   "No. of Seasons",
+			Value:  strconv.Itoa(tvShow.NumberOfSeasons),
+			Inline: true,
+		},
+	}
+
+	if tvShow.Tagline != "" {
+		embedFields = append(
+			[]*discordgo.MessageEmbedField{
+				{
+					Name:   "Tagline",
+					Value:  tvShow.Tagline,
+					Inline: false,
+				},
+			},
+			embedFields...,
+		)
+	}
+
+	return MakeEmbed(
+		fmt.Sprintf(
+			"%v/%v-%v",
+			"https://www.themoviedb.org/tv",
+			tvShow.ID,
+			strings.ReplaceAll(tvShow.Name, " ", "-"),
+		),
+		tvShow.Name,
+		tvShow.Overview,
+		embedImage,
+		embedFields,
+		thumbnail,
+	)
+
 }
