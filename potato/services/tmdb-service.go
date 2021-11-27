@@ -58,8 +58,21 @@ func (t *TMDBService) GetTVShowDetail(id string) (models.TVShow, error) {
 	return tvShow, nil
 }
 
-func (t *TMDBService) makeRequest(endpoint string) ([]byte, error) {
-	req, err := http.NewRequest("GET", fmt.Sprintf("%v%v", BaseApiUrl, endpoint), nil)
+func (t *TMDBService) makeRequest(endpoint string, queries url.Values) ([]byte, error) {
+	u, err := url.Parse(fmt.Sprintf("%v%v", BaseApiUrl, endpoint))
+	if err != nil {
+		return nil, err
+	}
+
+	q := u.Query()
+	for key, values := range queries {
+		for _, v := range values {
+			q.Set(key, v)
+		}
+	}
+	u.RawQuery = q.Encode()
+
+	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
 		return nil, err
 	}
