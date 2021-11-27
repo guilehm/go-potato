@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 
 	"github.com/guilehm/go-potato/models"
 )
@@ -20,7 +21,7 @@ type TMDBService struct {
 
 func (t *TMDBService) SearchMovies(text string) (models.MovieSearchResponse, error) {
 	var response models.MovieSearchResponse
-	body, err := t.makeRequest("search/movie?query=" + text)
+	body, err := t.makeRequest("search/movie?query=" + url.QueryEscape(text))
 	if err != nil {
 		return response, err
 	}
@@ -33,7 +34,7 @@ func (t *TMDBService) SearchMovies(text string) (models.MovieSearchResponse, err
 
 func (t *TMDBService) SearchTvShows(text string) (models.TVSearchResponse, error) {
 	var response models.TVSearchResponse
-	body, err := t.makeRequest("search/tv?query=" + text)
+	body, err := t.makeRequest("search/tv?query=" + url.QueryEscape(text))
 	if err != nil {
 		return response, err
 	}
