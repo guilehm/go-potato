@@ -67,12 +67,20 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
+	embedImage := discordgo.MessageEmbedImage{
+		URL:      "https://www.themoviedb.org/t/p/w300" + tvShow.BackdropPath,
+		ProxyURL: "",
+		Width:    300,
+		Height:   169,
+	}
+
 	_, err = s.ChannelMessageSendEmbed(
 		m.ChannelID,
 		helpers.MakeEmbed(
 			"",
 			tvShow.Name,
 			tvShow.Overview,
+			&embedImage,
 		),
 	)
 
@@ -139,6 +147,7 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 			"",
 			"Movies found:",
 			strings.Join(resultTitles, "\n"),
+			&discordgo.MessageEmbedImage{},
 		),
 	)
 }
@@ -168,6 +177,7 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 			"",
 			"TV Shows found:",
 			strings.Join(resultTitles, "\n"),
+			&discordgo.MessageEmbedImage{},
 		),
 	)
 }
