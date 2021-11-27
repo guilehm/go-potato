@@ -23,7 +23,77 @@ import (
 var service = services.TMDBService{AccessToken: os.Getenv("TMDB_ACCESS_TOKEN")}
 
 func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
-	_, _ = s.ChannelMessageEdit(r.ChannelID, r.MessageID, "replaced")
+	if r.UserID == s.State.User.ID {
+		return
+	}
+	_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, r.Emoji.Name, r.UserID)
+
+	var m models.MessageData
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	err := db.MessagesDataCollection.FindOne(
+		ctx, bson.M{"message_id": r.MessageID},
+	).Decode(&m)
+	if err != nil {
+		fmt.Println("could not find message #" + r.MessageID)
+		return
+	}
+
+	var page int
+	var n int
+	if r.Emoji.Name == "⏭️" {
+		page = m.Page + 1
+		n = 1
+	} else if r.Emoji.Name == "⏮️" {
+		page = m.Page - 1
+		n = -1
+	} else {
+		return
+	}
+
+	searchResponse, err := service.SearchTvShows(m.Text, page)
+	if err != nil {
+		return
+	}
+
+	resultTitles := helpers.MakeTVShowSearchResultTitles(searchResponse)
+	embed := helpers.MakeEmbed(
+		"",
+		"TV Shows found:",
+		resultTitles,
+		&discordgo.MessageEmbedImage{},
+		[]*discordgo.MessageEmbedField{},
+		&discordgo.MessageEmbedThumbnail{},
+	)
+	_, err = s.ChannelMessageEditEmbed(r.ChannelID, r.MessageID, embed)
+	if err != nil {
+		return
+	}
+
+	go func() {
+		_, err = db.MessagesDataCollection.UpdateOne(
+			ctx,
+			bson.M{"message_id": r.MessageID},
+			bson.M{"$inc": bson.M{"page": n}},
+		)
+		if err != nil {
+			return
+		}
+	}()
+
+	if searchResponse.Page > 1 {
+		_ = s.MessageReactionAdd(r.ChannelID, r.MessageID, "⏮️")
+	}
+	if searchResponse.Page < searchResponse.TotalPages {
+		_ = s.MessageReactionAdd(r.ChannelID, r.MessageID, "⏭️")
+	}
+	if searchResponse.Page == searchResponse.TotalPages {
+		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", s.State.User.ID)
+	}
+	if searchResponse.Page == 1 {
+		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", s.State.User.ID)
+	}
+
 }
 
 func ReactionRemove(s *discordgo.Session, r *discordgo.MessageReactionRemove) {
