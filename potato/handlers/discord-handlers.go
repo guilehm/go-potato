@@ -40,12 +40,12 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	if strings.HasPrefix(m.Content, ".m") {
+	if strings.HasPrefix(m.Content, ".m ") {
 		handleSearchMovies(s, m)
 		return
 	}
 
-	if strings.HasPrefix(m.Content, ".s") {
+	if strings.HasPrefix(m.Content, ".t ") {
 		handleSearchTVShows(s, m)
 		return
 	}
@@ -61,6 +61,7 @@ func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 	upsert := true
 	opt := options.UpdateOptions{Upsert: &upsert}
 
+	// TODO: add avatar_url field (m.Author.AvatarURL(""))
 	_, err := db.UsersCollection.UpdateOne(
 		ctx, bson.M{"id": m.Author.ID}, bson.D{{Key: "$set", Value: m.Author}}, &opt,
 	)
