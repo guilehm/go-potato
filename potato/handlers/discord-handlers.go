@@ -55,15 +55,59 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮", s.State.User.ID)
 	_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮", r.UserID)
 
-	searchResponse, err := service.SearchTvShows(m.Text, page)
-	if err != nil {
+	var resultTitles string
+	var title string
+	if m.Type == models.T {
+		searchResponse, err := service.SearchTvShows(m.Text, page)
+		if err != nil {
+			return
+		}
+		resultTitles = helpers.MakeTVShowSearchResultTitles(searchResponse)
+		title = "TV Shows found:"
+
+		if searchResponse.Page > 1 {
+			_ = s.MessageReactionAdd(r.ChannelID, r.MessageID, "⏮️")
+		}
+		if searchResponse.Page < searchResponse.TotalPages {
+			_ = s.MessageReactionAdd(r.ChannelID, r.MessageID, "⏭️")
+		}
+		if searchResponse.Page == searchResponse.TotalPages {
+			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", s.State.User.ID)
+			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", r.UserID)
+		}
+		if searchResponse.Page == 1 {
+			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", s.State.User.ID)
+			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", r.UserID)
+		}
+	} else if m.Type == models.M {
+		searchResponse, err := service.SearchMovies(m.Text, page)
+		if err != nil {
+			return
+		}
+		title = "Movies found:"
+		resultTitles = helpers.MakeMovieSearchResultTitles(searchResponse)
+
+		if searchResponse.Page > 1 {
+			_ = s.MessageReactionAdd(r.ChannelID, r.MessageID, "⏮️")
+		}
+		if searchResponse.Page < searchResponse.TotalPages {
+			_ = s.MessageReactionAdd(r.ChannelID, r.MessageID, "⏭️")
+		}
+		if searchResponse.Page == searchResponse.TotalPages {
+			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", s.State.User.ID)
+			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", r.UserID)
+		}
+		if searchResponse.Page == 1 {
+			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", s.State.User.ID)
+			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", r.UserID)
+		}
+	} else {
 		return
 	}
 
-	resultTitles := helpers.MakeTVShowSearchResultTitles(searchResponse)
 	embed := helpers.MakeEmbed(
 		"",
-		"TV Shows found:",
+		title,
 		resultTitles,
 		&discordgo.MessageEmbedImage{},
 		[]*discordgo.MessageEmbedField{},
@@ -75,6 +119,8 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	}
 
 	go func() {
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
 		_, err = db.MessagesDataCollection.UpdateOne(
 			ctx,
 			bson.M{"message_id": r.MessageID},
@@ -84,21 +130,6 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 			return
 		}
 	}()
-
-	if searchResponse.Page > 1 {
-		_ = s.MessageReactionAdd(r.ChannelID, r.MessageID, "⏮️")
-	}
-	if searchResponse.Page < searchResponse.TotalPages {
-		_ = s.MessageReactionAdd(r.ChannelID, r.MessageID, "⏭️")
-	}
-	if searchResponse.Page == searchResponse.TotalPages {
-		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", s.State.User.ID)
-		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", r.UserID)
-	}
-	if searchResponse.Page == 1 {
-		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", s.State.User.ID)
-		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", r.UserID)
-	}
 
 }
 
@@ -219,16 +250,13 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	resultTitles := make([]string, len(searchResponse.Results))
-	for index, result := range searchResponse.Results {
-		resultTitles[index] = fmt.Sprintf("%v *(%v)*", result.Title, result.ID)
-	}
+	resultTitles := helpers.MakeMovieSearchResultTitles(searchResponse)
 	message, err := s.ChannelMessageSendEmbed(
 		m.ChannelID,
 		helpers.MakeEmbed(
 			"",
 			"Movies found:",
-			strings.Join(resultTitles, "\n"),
+			resultTitles,
 			&discordgo.MessageEmbedImage{},
 			[]*discordgo.MessageEmbedField{},
 			&discordgo.MessageEmbedThumbnail{},
