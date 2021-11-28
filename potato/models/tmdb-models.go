@@ -1,5 +1,10 @@
 package models
 
+const (
+	T string = "tv-show"
+	M string = "movie"
+)
+
 type MovieSearchResult struct {
 	Adult            bool    `json:"adult"`
 	BackdropPath     string  `json:"backdrop_path"`
