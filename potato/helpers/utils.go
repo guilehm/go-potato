@@ -106,6 +106,14 @@ func GetEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed {
 
 }
 
+func MakeMovieSearchResultTitles(mr models.MovieSearchResponse) string {
+	resultTitles := make([]string, len(mr.Results))
+	for index, result := range mr.Results {
+		resultTitles[index] = fmt.Sprintf("%v *(%v)*", result.Title, result.ID)
+	}
+	return strings.Join(resultTitles, "\n")
+}
+
 func MakeTVShowSearchResultTitles(sr models.TVSearchResponse) string {
 	resultTitles := make([]string, len(sr.Results))
 	for index, result := range sr.Results {
