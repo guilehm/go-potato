@@ -194,7 +194,7 @@ func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	_, err := db.UsersCollection.UpdateOne(
-		ctx, bson.M{"id": m.Author.ID}, bson.D{{Key: "$set", Value: user}}, &opt,
+		ctx, bson.M{"id": m.Author.ID}, bson.D{{Key: "$set", Value: &user}}, &opt,
 	)
 	if err != nil {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not update user: "+err.Error())
