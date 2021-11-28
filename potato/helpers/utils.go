@@ -45,7 +45,7 @@ func MakeEmbed(
 	}
 }
 
-func GetEmbedForTVShow(tvShow models.TVShow) *discordgo.MessageEmbed {
+func GetEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed {
 	embedImage := &discordgo.MessageEmbedImage{
 		URL:      "https://www.themoviedb.org/t/p/w300" + tvShow.BackdropPath,
 		ProxyURL: "",

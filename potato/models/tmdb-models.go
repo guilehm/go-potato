@@ -47,7 +47,7 @@ type TVSearchResponse struct {
 	TotalResults int              `json:"total_results"`
 }
 
-type TVShow struct {
+type TVShowResult struct {
 	BackdropPath        string              `json:"backdrop_path"`
 	CreatedBy           []Creator           `json:"created_by"`
 	EpisodeRunTime      []int               `json:"episode_run_time"`

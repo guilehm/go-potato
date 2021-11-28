@@ -50,8 +50,8 @@ func (t *TMDBService) SearchTvShows(text string, page int) (models.TVSearchRespo
 	return response, err
 }
 
-func (t *TMDBService) GetTVShowDetail(id string) (models.TVShow, error) {
-	var tvShow models.TVShow
+func (t *TMDBService) GetTVShowDetail(id string) (models.TVShowResult, error) {
+	var tvShow models.TVShowResult
 	body, err := t.makeRequest("tv/"+id, nil)
 	if err != nil {
 		return tvShow, err
