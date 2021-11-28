@@ -1,6 +1,10 @@
 package models
 
-import "github.com/bwmarrin/discordgo"
+import (
+	"time"
+
+	"github.com/bwmarrin/discordgo"
+)
 
 type MessageData struct {
 	MessageID  string `json:"message_id" bson:"message_id"`
@@ -11,5 +15,6 @@ type MessageData struct {
 
 type UserDiscord struct {
 	discordgo.User `bson:",inline"`
-	AvatarUrl      string `json:"avatar_url" bson:"avatar_url"`
+	AvatarUrl      string    `json:"avatar_url" bson:"avatar_url"`
+	DateChanged    time.Time `json:"date_changed" bson:"date_changed"`
 }
