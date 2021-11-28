@@ -248,7 +248,7 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 				Text:       text,
 				Page:       1,
 				TotalPages: searchResponse.TotalPages,
-				Type:       models.T,
+				Type:       models.M,
 			}
 			_, err = db.MessagesDataCollection.UpdateOne(
 				ctx, bson.M{"message_id": message.ID}, bson.D{{Key: "$set", Value: &messageData}}, &opt,
@@ -305,7 +305,7 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 				Text:       text,
 				Page:       1,
 				TotalPages: searchResponse.TotalPages,
-				Type:       models.M,
+				Type:       models.T,
 			}
 			_, err = db.MessagesDataCollection.UpdateOne(
 				ctx, bson.M{"message_id": message.ID}, bson.D{{Key: "$set", Value: &messageData}}, &opt,
