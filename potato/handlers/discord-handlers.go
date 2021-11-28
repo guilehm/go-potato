@@ -186,10 +186,11 @@ func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	upsert := true
 	opt := options.UpdateOptions{Upsert: &upsert}
-
+	now, _ := time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 	user := models.UserDiscord{
-		User:      *m.Author,
-		AvatarUrl: m.Author.AvatarURL(""),
+		User:        *m.Author,
+		AvatarUrl:   m.Author.AvatarURL(""),
+		DateChanged: now,
 	}
 
 	_, err := db.UsersCollection.UpdateOne(
