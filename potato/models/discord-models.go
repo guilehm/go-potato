@@ -11,6 +11,7 @@ type MessageData struct {
 	Text       string `json:"text" bson:"text"`
 	Page       int    `json:"page" bson:"page"`
 	TotalPages int    `json:"total_pages" bson:"total_pages"`
+	Type       string `json:"type" bson:"type"`
 }
 
 type UserDiscord struct {
