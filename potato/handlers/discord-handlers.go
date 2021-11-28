@@ -125,7 +125,6 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 }
 
 func ReactionRemove(s *discordgo.Session, r *discordgo.MessageReactionRemove) {
-	_, _ = s.ChannelMessageEdit(r.ChannelID, r.MessageID, "overwritten")
 }
 
 func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
