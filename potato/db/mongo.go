@@ -14,7 +14,7 @@ var client = Connection()
 var database = client.Database("go-potato")
 
 var UsersCollection = database.Collection("users")
-var TVShowsCollection = database.Collection("tv-series")
+var TVShowsCollection = database.Collection("tv-shows")
 var MessagesDataCollection = database.Collection("messages")
 
 func Connection() *mongo.Client {
