@@ -57,6 +57,8 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 
 	var resultTitles string
 	var title string
+	var srPage int
+	var srTotalPages int
 	if m.Type == models.T {
 		searchResponse, err := service.SearchTvShows(m.Text, page)
 		if err != nil {
@@ -64,21 +66,8 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		}
 		resultTitles = helpers.MakeTVShowSearchResultTitles(searchResponse)
 		title = "TV Shows found:"
-
-		if searchResponse.Page > 1 {
-			_ = s.MessageReactionAdd(r.ChannelID, r.MessageID, "⏮️")
-		}
-		if searchResponse.Page < searchResponse.TotalPages {
-			_ = s.MessageReactionAdd(r.ChannelID, r.MessageID, "⏭️")
-		}
-		if searchResponse.Page == searchResponse.TotalPages {
-			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", s.State.User.ID)
-			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", r.UserID)
-		}
-		if searchResponse.Page == 1 {
-			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", s.State.User.ID)
-			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", r.UserID)
-		}
+		srPage = searchResponse.Page
+		srTotalPages = searchResponse.TotalPages
 	} else if m.Type == models.M {
 		searchResponse, err := service.SearchMovies(m.Text, page)
 		if err != nil {
@@ -86,21 +75,8 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		}
 		title = "Movies found:"
 		resultTitles = helpers.MakeMovieSearchResultTitles(searchResponse)
-
-		if searchResponse.Page > 1 {
-			_ = s.MessageReactionAdd(r.ChannelID, r.MessageID, "⏮️")
-		}
-		if searchResponse.Page < searchResponse.TotalPages {
-			_ = s.MessageReactionAdd(r.ChannelID, r.MessageID, "⏭️")
-		}
-		if searchResponse.Page == searchResponse.TotalPages {
-			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", s.State.User.ID)
-			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", r.UserID)
-		}
-		if searchResponse.Page == 1 {
-			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", s.State.User.ID)
-			_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", r.UserID)
-		}
+		srPage = searchResponse.Page
+		srTotalPages = searchResponse.TotalPages
 	} else {
 		return
 	}
@@ -116,6 +92,21 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	_, err = s.ChannelMessageEditEmbed(r.ChannelID, r.MessageID, embed)
 	if err != nil {
 		return
+	}
+
+	if srPage > 1 {
+		_ = s.MessageReactionAdd(r.ChannelID, r.MessageID, "⏮️")
+	}
+	if srPage < srTotalPages {
+		_ = s.MessageReactionAdd(r.ChannelID, r.MessageID, "⏭️")
+	}
+	if srPage == srTotalPages {
+		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", s.State.User.ID)
+		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", r.UserID)
+	}
+	if srPage == 1 {
+		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", s.State.User.ID)
+		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", r.UserID)
 	}
 
 	go func() {
