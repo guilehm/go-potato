@@ -236,6 +236,23 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 	)
 	if err != nil {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Ops... Something weird happened")
+	} else {
+		go func() {
+			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+			defer cancel()
+			upsert := true
+			opt := options.UpdateOptions{Upsert: &upsert}
+
+			messageData := models.MessageData{
+				MessageID:  message.ID,
+				Text:       text,
+				Page:       1,
+				TotalPages: searchResponse.TotalPages,
+			}
+			_, err = db.MessagesDataCollection.UpdateOne(
+				ctx, bson.M{"message_id": message.ID}, bson.D{{Key: "$set", Value: &messageData}}, &opt,
+			)
+		}()
 	}
 
 	if searchResponse.Page < searchResponse.TotalPages {
