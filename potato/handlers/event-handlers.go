@@ -41,14 +41,10 @@ func ReactionRemove(s *discordgo.Session, r *discordgo.MessageReactionRemove) {
 		return
 	}
 
-	acceptedEmojis := map[string]func(s *discordgo.Session, r *discordgo.MessageReactionRemove){
-		"❤️": HandleLikeRemove,
+	switch r.Emoji.Name {
+	case "❤️":
+		HandleLikeRemove(s, r)
 	}
-	function := acceptedEmojis[r.Emoji.Name]
-	if function == nil {
-		return
-	}
-	function(s, r)
 }
 
 func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
