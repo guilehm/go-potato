@@ -1,8 +1,10 @@
 package models
 
 const (
-	T string = "tv-show"
-	M string = "movie"
+	T  string = "tv-show"
+	M  string = "movie"
+	TD string = "tv-show-detail"
+	MD string = "movie-detail"
 )
 
 type MovieSearchResult struct {
