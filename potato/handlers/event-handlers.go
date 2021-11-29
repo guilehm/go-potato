@@ -29,6 +29,7 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	acceptedEmojis := map[string]func(s *discordgo.Session, r *discordgo.MessageReactionAdd){
 		"⏭️": HandleNextPrev,
 		"⏮️": HandleNextPrev,
+		"❤️": HandleLikeAdd,
 	}
 	function := acceptedEmojis[r.Emoji.Name]
 	if function == nil {
