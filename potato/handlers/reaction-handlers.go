@@ -183,7 +183,7 @@ func HandleLikeRemove(s *discordgo.Session, r *discordgo.MessageReactionRemove) 
 
 	_, _ = s.ChannelMessageSend(
 		r.ChannelID, fmt.Sprintf(
-			"<@%v> \"%v\" successfully **removed** to your like list",
+			"<@%v> \"%v\" successfully **removed** from your like list",
 			user.ID,
 			message.ContentTitle,
 		),
