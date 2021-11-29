@@ -162,5 +162,16 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if err != nil {
 			fmt.Println("could not update TV Show #" + tvShowID)
 		}
+
+		messageData := models.MessageData{
+			MessageID:    message.ID,
+			Type:         models.TD,
+			ContentId:    tvShowID,
+			ContentTitle: tvShow.Name,
+		}
+		_, err = db.MessagesDataCollection.InsertOne(ctx, messageData)
+		if err != nil {
+			fmt.Println("could save message data for tv-show #" + tvShowID)
+		}
 	}()
 }
