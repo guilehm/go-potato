@@ -7,11 +7,13 @@ import (
 )
 
 type MessageData struct {
-	MessageID  string `json:"message_id" bson:"message_id"`
-	Text       string `json:"text" bson:"text"`
-	Page       int    `json:"page" bson:"page"`
-	TotalPages int    `json:"total_pages" bson:"total_pages"`
-	Type       string `json:"type" bson:"type"`
+	MessageID    string `json:"message_id" bson:"message_id"`
+	Text         string `json:"text" bson:"text"`
+	Page         int    `json:"page" bson:"page"`
+	TotalPages   int    `json:"total_pages" bson:"total_pages"`
+	Type         string `json:"type" bson:"type"`
+	ContentId    string `json:"content_id" bson:"content_id"`
+	ContentTitle string `json:"content_title" bson:"content_title"`
 }
 
 type UserDiscord struct {
