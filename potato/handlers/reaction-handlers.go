@@ -144,7 +144,11 @@ func HandleLikeAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	}
 
 	_, _ = s.ChannelMessageSend(
-		r.ChannelID, fmt.Sprintf("\"%v\" successfully added to your like list", message.ContentTitle),
+		r.ChannelID, fmt.Sprintf(
+			"<@%v> \"%v\" successfully **added** to your like list",
+			user.ID,
+			message.ContentTitle,
+		),
 	)
 }
 
@@ -178,6 +182,10 @@ func HandleLikeRemove(s *discordgo.Session, r *discordgo.MessageReactionRemove) 
 	}
 
 	_, _ = s.ChannelMessageSend(
-		r.ChannelID, fmt.Sprintf("\"%v\" successfully removed to your like list", message.ContentTitle),
+		r.ChannelID, fmt.Sprintf(
+			"<@%v> \"%v\" successfully **removed** to your like list",
+			user.ID,
+			message.ContentTitle,
+		),
 	)
 }
