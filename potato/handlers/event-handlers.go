@@ -39,6 +39,18 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 }
 
 func ReactionRemove(s *discordgo.Session, r *discordgo.MessageReactionRemove) {
+	if r.UserID == s.State.User.ID {
+		return
+	}
+
+	acceptedEmojis := map[string]func(s *discordgo.Session, r *discordgo.MessageReactionRemove){
+		"❤️": HandleLikeRemove,
+	}
+	function := acceptedEmojis[r.Emoji.Name]
+	if function == nil {
+		return
+	}
+	function(s, r)
 }
 
 func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
