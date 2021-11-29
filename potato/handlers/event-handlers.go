@@ -26,16 +26,14 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		return
 	}
 
-	acceptedEmojis := map[string]func(s *discordgo.Session, r *discordgo.MessageReactionAdd){
-		"⏭️": HandleNextPrev,
-		"⏮️": HandleNextPrev,
-		"❤️": HandleLikeAdd,
+	switch r.Emoji.Name {
+	case "⏭️":
+		HandleNextPrev(s, r)
+	case "⏮️":
+		HandleNextPrev(s, r)
+	case "❤️":
+		HandleLikeAdd(s, r)
 	}
-	function := acceptedEmojis[r.Emoji.Name]
-	if function == nil {
-		return
-	}
-	function(s, r)
 }
 
 func ReactionRemove(s *discordgo.Session, r *discordgo.MessageReactionRemove) {
