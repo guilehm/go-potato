@@ -142,7 +142,42 @@ func HandleLikeAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		fmt.Printf("Could not add like to user #%v for message #%v\n", r.UserID, message.MessageID)
 		return
 	}
+
 	_, _ = s.ChannelMessageSend(
 		r.ChannelID, fmt.Sprintf("\"%v\" successfully added to your like list", message.ContentTitle),
+	)
+}
+
+func HandleLikeRemove(s *discordgo.Session, r *discordgo.MessageReactionRemove) {
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	var user models.UserDiscord
+	if err := db.UsersCollection.FindOne(ctx, bson.M{"id": r.UserID}).Decode(&user); err != nil {
+		return
+	}
+
+	var message models.MessageData
+	if err := db.MessagesDataCollection.FindOne(
+		ctx,
+		bson.M{"message_id": r.MessageID},
+	).Decode(&message); err != nil {
+		fmt.Printf("Could not find message #%v\n", r.MessageID)
+		return
+	}
+
+	_, err := db.UsersCollection.UpdateOne(
+		ctx,
+		bson.M{"id": user.ID},
+		bson.M{"$pull": bson.M{"likes": message.ContentId}},
+	)
+	if err != nil {
+		fmt.Printf("Could not remove like to user #%v for message #%v\n", r.UserID, message.MessageID)
+		return
+	}
+
+	_, _ = s.ChannelMessageSend(
+		r.ChannelID, fmt.Sprintf("\"%v\" successfully removed to your like list", message.ContentTitle),
 	)
 }
