@@ -139,13 +139,14 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	_, err = s.ChannelMessageSendEmbed(
+	message, err := s.ChannelMessageSendEmbed(
 		m.ChannelID,
 		helpers.GetEmbedForTVShow(tvShow),
 	)
 	if err != nil {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Ops... Something weird happened")
 	}
+	_ = s.MessageReactionAdd(m.ChannelID, message.ID, "❤️")
 
 	go func() {
 
