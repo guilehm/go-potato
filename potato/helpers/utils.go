@@ -140,15 +140,21 @@ func GetEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed {
 func MakeMovieSearchResultTitles(mr models.MovieSearchResponse) string {
 	resultTitles := make([]string, len(mr.Results))
 	for index, result := range mr.Results {
-		resultTitles[index] = fmt.Sprintf("%v *(%v)*", result.Title, result.ID)
+		resultTitles[index] = fmt.Sprintf("%v - %v *(%v)*", index+1, result.Title, result.ID)
 	}
 	return strings.Join(resultTitles, "\n")
 }
 
 func MakeTVShowSearchResultTitles(sr models.TVSearchResponse) string {
 	resultTitles := make([]string, len(sr.Results))
+	var i string
 	for index, result := range sr.Results {
-		resultTitles[index] = fmt.Sprintf("%v *(%v)*", result.Name, result.ID)
+		if index < 3 {
+			i = models.EmojiNumbersMap[index+1]
+		} else {
+			i = strconv.Itoa(index + 1)
+		}
+		resultTitles[index] = fmt.Sprintf("%v - %v *(%v)*", i, result.Name, result.ID)
 	}
 	return strings.Join(resultTitles, "\n")
 }
