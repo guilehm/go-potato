@@ -139,7 +139,7 @@ func HandleLikeAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		bson.M{"$addToSet": bson.M{"likes": message.ContentId}},
 	)
 	if err != nil {
-		fmt.Printf("Could not add like to user #%v for message #%v\n", r.UserID, message.MessageID)
+		fmt.Printf("Could not add like to user #%v for message #%v. %v\n", r.UserID, message.MessageID, err)
 		return
 	}
 
