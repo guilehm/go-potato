@@ -78,6 +78,19 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		return
 	}
 
+	go func() {
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		_, err = db.MessagesDataCollection.UpdateOne(
+			ctx,
+			bson.M{"message_id": r.MessageID},
+			bson.M{"$inc": bson.M{"page": n}},
+		)
+		if err != nil {
+			return
+		}
+	}()
+
 	if srPage > 1 {
 		_ = s.MessageReactionAdd(r.ChannelID, r.MessageID, "⏮️")
 	}
@@ -92,19 +105,6 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", s.State.User.ID)
 		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", r.UserID)
 	}
-
-	go func() {
-		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-		defer cancel()
-		_, err = db.MessagesDataCollection.UpdateOne(
-			ctx,
-			bson.M{"message_id": r.MessageID},
-			bson.M{"$inc": bson.M{"page": n}},
-		)
-		if err != nil {
-			return
-		}
-	}()
 
 }
 
