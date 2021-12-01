@@ -12,7 +12,7 @@ type MessageData struct {
 	Page         int    `json:"page" bson:"page"`
 	TotalPages   int    `json:"total_pages" bson:"total_pages"`
 	Type         string `json:"type" bson:"type"`
-	ContentId    string `json:"content_id" bson:"content_id"`
+	ContentId    int    `json:"content_id" bson:"content_id"`
 	ContentTitle string `json:"content_title" bson:"content_title"`
 }
 
