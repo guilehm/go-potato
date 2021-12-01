@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
 
@@ -163,10 +164,16 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 			fmt.Println("could not update TV Show #" + tvShowID)
 		}
 
+		intTvShowID, err := strconv.Atoi(tvShowID)
+		if err != nil {
+			fmt.Println("Could not convert TV Show ID #" + tvShowID)
+			return
+		}
+
 		messageData := models.MessageData{
 			MessageID:    message.ID,
 			Type:         models.TD,
-			ContentId:    tvShowID,
+			ContentId:    intTvShowID,
 			ContentTitle: tvShow.Name,
 		}
 		_, err = db.MessagesDataCollection.InsertOne(ctx, messageData)
