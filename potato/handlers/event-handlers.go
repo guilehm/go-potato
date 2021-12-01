@@ -23,6 +23,12 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		HandleNextPrev(s, r)
 	case "❤️":
 		HandleLikeAdd(s, r)
+	case "1️⃣":
+		HandleNumberAdd(s, r)
+	case "2️⃣":
+		HandleNumberAdd(s, r)
+	case "3️⃣":
+		HandleNumberAdd(s, r)
 	}
 }
 

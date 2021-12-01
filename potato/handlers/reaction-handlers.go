@@ -193,3 +193,7 @@ func HandleLikeRemove(s *discordgo.Session, r *discordgo.MessageReactionRemove) 
 		),
 	)
 }
+
+func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
+
+}
