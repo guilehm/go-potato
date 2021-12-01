@@ -70,9 +70,9 @@ func handleTVShowLikeList(s *discordgo.Session, m *discordgo.MessageCreate) {
 		bson.M{"id": bson.M{"$in": user.Likes}},
 		opts,
 	)
-
 	if err != nil {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not find your list")
+		return
 	}
 
 	tvShows := make([]models.TVShowResult, cur.RemainingBatchLength())
