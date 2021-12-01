@@ -100,13 +100,20 @@ func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 		Likes:       []int{},
 	}
 
-	_, err := db.UsersCollection.UpdateOne(
+	result, err := db.UsersCollection.UpdateOne(
 		ctx, bson.M{"id": m.Author.ID}, bson.D{{Key: "$set", Value: &user}}, &opt,
 	)
-	if err != nil {
-		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not update user: "+err.Error())
+
+	var t string
+	if result.UpsertedID != nil {
+		t = "create"
 	} else {
-		_, _ = s.ChannelMessageSend(m.ChannelID, "User successfully updated!")
+		t = "update"
+	}
+	if err != nil {
+		_, _ = s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("Could not %v user", t))
+	} else {
+		_, _ = s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("User successfully %vd!", t))
 	}
 
 }
