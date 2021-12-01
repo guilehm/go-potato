@@ -52,18 +52,13 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	if strings.ToLower(m.Content) == "hello" {
-		handleHello(s, m)
+	if strings.ToLower(m.Content) == "ping" {
+		handlePing(s, m)
 		return
 	}
 
-	if strings.ToLower(m.Content) == "ping" {
-		_ = s.ChannelTyping(m.ChannelID)
-		_, err := s.ChannelMessageSend(m.ChannelID, "pong!")
-		if err != nil {
-			fmt.Println("could not send message for channel: " + m.ChannelID)
-			fmt.Println(err.Error())
-		}
+	if strings.ToLower(m.Content) == "hello" {
+		handleHello(s, m)
 		return
 	}
 
