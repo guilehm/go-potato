@@ -6,6 +6,14 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
+var EmojiNumbersMap = map[int]string{
+	1: "1️⃣",
+	2: "2️⃣",
+	3: "3️⃣",
+	4: "4️⃣",
+	5: "5️⃣",
+}
+
 type MessageData struct {
 	MessageID    string `json:"message_id" bson:"message_id"`
 	Text         string `json:"text" bson:"text"`
