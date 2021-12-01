@@ -82,7 +82,7 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	if strings.HasPrefix(m.Content, ".ml") {
+	if strings.HasPrefix(m.Content, ".tl") {
 		handleMyTVShowList(s, m)
 		return
 	}
