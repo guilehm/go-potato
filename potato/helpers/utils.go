@@ -45,6 +45,37 @@ func MakeEmbed(
 	}
 }
 
+func GetSimpleEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed {
+	thumbnail := &discordgo.MessageEmbedThumbnail{
+		URL:      "https://www.themoviedb.org/t/p/w300" + tvShow.BackdropPath,
+		ProxyURL: "",
+		Width:    300,
+		Height:   169,
+	}
+
+	return &discordgo.MessageEmbed{
+		URL: fmt.Sprintf(
+			"%v/%v-%v",
+			"https://www.themoviedb.org/tv",
+			tvShow.ID,
+			strings.ReplaceAll(tvShow.Name, " ", "-"),
+		),
+		Type:        "",
+		Title:       tvShow.Name,
+		Description: "",
+		Timestamp:   "",
+		Color:       15418782,
+		Footer:      nil,
+		Image:       nil,
+		Thumbnail:   thumbnail,
+		Video:       nil,
+		Provider:    nil,
+		Author:      nil,
+		Fields:      nil,
+	}
+
+}
+
 func GetEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed {
 	embedImage := &discordgo.MessageEmbedImage{
 		URL:      "https://www.themoviedb.org/t/p/w300" + tvShow.BackdropPath,
