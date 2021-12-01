@@ -68,7 +68,7 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if strings.HasPrefix(m.Content, ".tl") {
-		handleMyTVShowList(s, m)
+		handleTVShowLikeList(s, m)
 		return
 	}
 

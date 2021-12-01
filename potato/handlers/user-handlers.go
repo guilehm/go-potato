@@ -52,7 +52,7 @@ func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 }
 
-func handleMyTVShowList(s *discordgo.Session, m *discordgo.MessageCreate) {
+func handleTVShowLikeList(s *discordgo.Session, m *discordgo.MessageCreate) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
