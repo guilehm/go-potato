@@ -80,7 +80,8 @@ func handleTVShowLikeList(s *discordgo.Session, m *discordgo.MessageCreate) {
 		var tvShow models.TVShowResult
 		err := cur.Decode(&tvShow)
 		if err != nil {
-			fmt.Println("could not decode")
+			fmt.Println("could not decode tv-show")
+			continue
 		}
 		tvShows = append(tvShows, tvShow)
 		go func() {
