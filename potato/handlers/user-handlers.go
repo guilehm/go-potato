@@ -24,30 +24,44 @@ func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
+	now, _ := time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+
+	var user models.UserDiscord
+	err := db.UsersCollection.FindOne(ctx, bson.M{"id": m.Author.ID}).Decode(&user)
+	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			user.User = *m.Author
+			user.AvatarUrl = m.Author.AvatarURL("")
+			user.DateChanged = now
+			user.Likes = []int{}
+
+			_, err := db.UsersCollection.InsertOne(ctx, user)
+			if err != nil {
+				_, _ = s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("Could not create your user. Please try again."))
+				return
+			}
+			_, _ = s.ChannelMessageSend(m.ChannelID, "User successfully created!")
+			return
+		}
+		return
+	}
+
 	upsert := true
 	opt := options.UpdateOptions{Upsert: &upsert}
-	now, _ := time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
-	user := models.UserDiscord{
+	user = models.UserDiscord{
 		User:        *m.Author,
 		AvatarUrl:   m.Author.AvatarURL(""),
 		DateChanged: now,
-		Likes:       []int{},
+		Likes:       user.Likes,
 	}
 
-	result, err := db.UsersCollection.UpdateOne(
+	_, err = db.UsersCollection.UpdateOne(
 		ctx, bson.M{"id": m.Author.ID}, bson.D{{Key: "$set", Value: &user}}, &opt,
 	)
-
-	var t string
-	if result.UpsertedID != nil {
-		t = "create"
-	} else {
-		t = "update"
-	}
 	if err != nil {
-		_, _ = s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("Could not %v user", t))
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not update your user")
 	} else {
-		_, _ = s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("User successfully %vd!", t))
+		_, _ = s.ChannelMessageSend(m.ChannelID, "User successfully updated!")
 	}
 
 }
