@@ -37,7 +37,10 @@ func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 			_, err := db.UsersCollection.InsertOne(ctx, user)
 			if err != nil {
-				_, _ = s.ChannelMessageSend(m.ChannelID, fmt.Sprintf("Could not create your user. Please try again."))
+				_, _ = s.ChannelMessageSend(
+					m.ChannelID,
+					fmt.Sprintf("Could not create your user. Please try again."),
+				)
 				return
 			}
 			_, _ = s.ChannelMessageSend(m.ChannelID, "User successfully created!")
