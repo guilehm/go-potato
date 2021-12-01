@@ -46,6 +46,10 @@ func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 			_, _ = s.ChannelMessageSend(m.ChannelID, "User successfully created!")
 			return
 		}
+		_, _ = s.ChannelMessageSend(
+			m.ChannelID,
+			"An error occurred while trying to create your user. Please try again.",
+		)
 		return
 	}
 
