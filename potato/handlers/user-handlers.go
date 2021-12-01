@@ -2,8 +2,13 @@ package handlers
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
+
+	"github.com/guilehm/go-potato/helpers"
+
+	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/guilehm/go-potato/models"
 
@@ -50,18 +55,24 @@ func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 func handleMyTVShowList(s *discordgo.Session, m *discordgo.MessageCreate) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	opts := options.Find().SetLimit(100).SetProjection(
-		bson.M{"_id": 0, "name": 1},
-	)
 
+	var user models.UserDiscord
+	if err := db.UsersCollection.FindOne(ctx, bson.M{"id": m.Author.ID}).Decode(&user); err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			_, _ = s.ChannelMessageSend(m.ChannelID, "Please say \"hello\" to create your user")
+		}
+		return
+	}
+
+	opts := options.Find()
 	cur, err := db.TVShowsCollection.Find(
 		ctx,
-		bson.M{"id": bson.M{"$in": []int{888, 72705}}},
+		bson.M{"id": bson.M{"$in": user.Likes}},
 		opts,
 	)
 
 	if err != nil {
-		fmt.Println("deu ruim ", err)
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not find your list")
 	}
 
 	tvShows := make([]models.TVShowResult, cur.RemainingBatchLength())
@@ -72,6 +83,9 @@ func handleMyTVShowList(s *discordgo.Session, m *discordgo.MessageCreate) {
 			fmt.Println("could not decode")
 		}
 		tvShows = append(tvShows, tvShow)
+		go func() {
+			_, _ = s.ChannelMessageSendEmbed(m.ChannelID, helpers.GetSimpleEmbedForTVShow(tvShow))
+		}()
 	}
 
 }
