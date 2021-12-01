@@ -37,10 +37,7 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		n = -1
 	}
 
-	_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", s.State.User.ID)
-	_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏭️", r.UserID)
-	_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮", s.State.User.ID)
-	_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮", r.UserID)
+	_ = s.MessageReactionsRemoveAll(r.ChannelID, r.MessageID)
 
 	var resultTitles string
 	var title string
