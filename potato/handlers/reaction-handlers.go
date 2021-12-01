@@ -41,6 +41,7 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 
 	var resultTitles string
 	var title string
+	var rCount int
 	var srPage int
 	var srTotalPages int
 	if m.Type == models.T {
@@ -52,6 +53,7 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		title = "TV Shows found:"
 		srPage = searchResponse.Page
 		srTotalPages = searchResponse.TotalPages
+		rCount = len(searchResponse.Results)
 	} else if m.Type == models.M {
 		searchResponse, err := service.SearchMovies(m.Text, page)
 		if err != nil {
@@ -61,6 +63,7 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		resultTitles = helpers.MakeMovieSearchResultTitles(searchResponse)
 		srPage = searchResponse.Page
 		srTotalPages = searchResponse.TotalPages
+		rCount = len(searchResponse.Results)
 	} else {
 		return
 	}
@@ -73,7 +76,7 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		[]*discordgo.MessageEmbedField{},
 		&discordgo.MessageEmbedThumbnail{},
 	)
-	_, err = s.ChannelMessageEditEmbed(r.ChannelID, r.MessageID, embed)
+	msg, err := s.ChannelMessageEditEmbed(r.ChannelID, r.MessageID, embed)
 	if err != nil {
 		return
 	}
@@ -104,6 +107,10 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	if srPage == 1 {
 		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", s.State.User.ID)
 		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", r.UserID)
+	}
+
+	for i := 1; i < rCount && i <= 3; i++ {
+		_ = s.MessageReactionAdd(msg.ChannelID, msg.ID, models.EmojiNumbersMap[i])
 	}
 
 }
