@@ -97,6 +97,7 @@ func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 		User:        *m.Author,
 		AvatarUrl:   m.Author.AvatarURL(""),
 		DateChanged: now,
+		Likes:       []int{},
 	}
 
 	_, err := db.UsersCollection.UpdateOne(
