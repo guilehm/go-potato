@@ -20,5 +20,5 @@ type UserDiscord struct {
 	discordgo.User `bson:",inline"`
 	AvatarUrl      string    `json:"avatar_url" bson:"avatar_url"`
 	DateChanged    time.Time `json:"date_changed" bson:"date_changed"`
-	Likes          []string  `json:"likes" bson:"likes"`
+	Likes          []int     `json:"likes" bson:"likes"`
 }
