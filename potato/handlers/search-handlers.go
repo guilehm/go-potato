@@ -171,7 +171,7 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 			fmt.Println("could not update TV Show #" + tvShowID)
 		}
 
-		intTvShowID, err := strconv.Atoi(tvShowID)
+		intTVShowID, err := strconv.Atoi(tvShowID)
 		if err != nil {
 			fmt.Println("Could not convert TV Show ID #" + tvShowID)
 			return
@@ -180,7 +180,7 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 		messageData := models.MessageData{
 			MessageID:    message.ID,
 			Type:         models.TD,
-			ContentId:    intTvShowID,
+			ContentId:    intTVShowID,
 			ContentTitle: tvShow.Name,
 		}
 		_, err = db.MessagesDataCollection.InsertOne(ctx, messageData)
