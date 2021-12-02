@@ -234,6 +234,17 @@ func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 			_, _ = s.ChannelMessageSend(r.ChannelID, "Ops... Something weird happened")
 		}
 		_ = s.MessageReactionAdd(r.ChannelID, msg.ID, "❤️")
+
+		messageData := models.MessageData{
+			MessageID:    msg.ID,
+			Type:         models.TD,
+			ContentId:    intTVShowID,
+			ContentTitle: tvShow.Name,
+		}
+		_, err = db.MessagesDataCollection.InsertOne(ctx, messageData)
+		if err != nil {
+			fmt.Println("could save message data for tv-show #" + tvShowID)
+		}
 	}
 
 }
