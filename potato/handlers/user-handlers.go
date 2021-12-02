@@ -112,9 +112,7 @@ func handleTVShowLikeList(s *discordgo.Session, m *discordgo.MessageCreate) {
 			continue
 		}
 		tvShows = append(tvShows, tvShow)
-		go func() {
-			_, _ = s.ChannelMessageSendEmbed(m.ChannelID, helpers.GetSimpleEmbedForTVShow(tvShow))
-		}()
+		_, _ = s.ChannelMessageSendEmbed(m.ChannelID, helpers.GetSimpleEmbedForTVShow(tvShow))
 	}
 
 }
