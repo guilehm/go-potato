@@ -110,7 +110,7 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		_ = s.MessageReactionRemove(r.ChannelID, r.MessageID, "⏮️", r.UserID)
 	}
 
-	for i := 1; i < rCount && i <= 3; i++ {
+	for i := 1; i <= rCount && i <= 3; i++ {
 		_ = s.MessageReactionAdd(msg.ChannelID, msg.ID, models.EmojiNumbersMap[i])
 	}
 
