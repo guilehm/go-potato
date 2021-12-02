@@ -17,17 +17,11 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	}
 
 	switch r.Emoji.Name {
-	case "⏭️":
-		HandleNextPrev(s, r)
-	case "⏮️":
+	case "⏮️", "⏭️":
 		HandleNextPrev(s, r)
 	case "❤️":
 		HandleLikeAdd(s, r)
-	case "1️⃣":
-		HandleNumberAdd(s, r)
-	case "2️⃣":
-		HandleNumberAdd(s, r)
-	case "3️⃣":
+	case "1️⃣", "2️⃣", "3️⃣":
 		HandleNumberAdd(s, r)
 	}
 }
