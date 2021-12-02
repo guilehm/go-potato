@@ -216,6 +216,7 @@ func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		}
 	}
 
+	// TODO: Add condition for movies
 	if message.Type == models.T {
 		tvShowID := strconv.Itoa(message.IDsMap[emojiIndex])
 		tvShow, err := service.GetTVShowDetail(tvShowID)
