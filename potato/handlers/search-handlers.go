@@ -88,6 +88,7 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	resultTitles := helpers.MakeTVShowSearchResultTitles(searchResponse)
+	resultIdsMap := helpers.MakeTVShowSearchResultIdsMap(searchResponse)
 	message, err := s.ChannelMessageSendEmbed(
 		m.ChannelID,
 		helpers.MakeEmbed(
@@ -115,6 +116,7 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 				Page:       1,
 				TotalPages: searchResponse.TotalPages,
 				Type:       models.T,
+				IDsMap:     resultIdsMap,
 			}
 			_, err = db.MessagesDataCollection.UpdateOne(
 				ctx, bson.M{"message_id": message.ID}, bson.D{{Key: "$set", Value: &messageData}}, &opt,
