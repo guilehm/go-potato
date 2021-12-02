@@ -199,8 +199,6 @@ func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	fmt.Println("202")
-
 	message := models.MessageData{}
 	if err := db.MessagesDataCollection.FindOne(
 		ctx,
@@ -210,7 +208,6 @@ func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		return
 	}
 
-	fmt.Println("213")
 	emojiIndex := 0
 	for key, value := range models.EmojiNumbersMap {
 		if r.Emoji.Name == value {
@@ -218,7 +215,6 @@ func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 			break
 		}
 	}
-	fmt.Println("202")
 
 	if message.Type == models.T {
 		tvShowID := strconv.Itoa(message.IDsMap[emojiIndex])
