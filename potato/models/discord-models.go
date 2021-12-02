@@ -15,13 +15,14 @@ var EmojiNumbersMap = map[int]string{
 }
 
 type MessageData struct {
-	MessageID    string `json:"message_id" bson:"message_id"`
-	Text         string `json:"text" bson:"text"`
-	Page         int    `json:"page" bson:"page"`
-	TotalPages   int    `json:"total_pages" bson:"total_pages"`
-	Type         string `json:"type" bson:"type"`
-	ContentId    int    `json:"content_id" bson:"content_id"`
-	ContentTitle string `json:"content_title" bson:"content_title"`
+	MessageID    string      `json:"message_id" bson:"message_id"`
+	Text         string      `json:"text" bson:"text"`
+	Page         int         `json:"page" bson:"page"`
+	TotalPages   int         `json:"total_pages" bson:"total_pages"`
+	Type         string      `json:"type" bson:"type"`
+	ContentId    int         `json:"content_id" bson:"content_id"`
+	ContentTitle string      `json:"content_title" bson:"content_title"`
+	IDsMap       map[int]int `json:"ids_map" bson:"ids_map"`
 }
 
 type UserDiscord struct {
