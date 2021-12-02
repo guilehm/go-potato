@@ -87,7 +87,7 @@ func handleTVShowLikeList(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	_, _ = s.ChannelMessageSend(
 		m.ChannelID, fmt.Sprintf(
-			"<@%v> Here is your TV Show like list.",
+			"<@%v> Here is your TV Show like list:",
 			user.ID,
 		),
 	)
