@@ -7,8 +7,6 @@ import (
 	"strconv"
 	"time"
 
-	"go.mongodb.org/mongo-driver/mongo/options"
-
 	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/bwmarrin/discordgo"
@@ -233,38 +231,8 @@ func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 			helpers.GetEmbedForTVShow(tvShow),
 		)
 
-		// TODO: this code is duplicated. Refactor it.
 		go func() {
-
-			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-			defer cancel()
-
-			upsert := true
-			opt := options.UpdateOptions{Upsert: &upsert}
-
-			_, err := db.TVShowsCollection.UpdateOne(
-				ctx, bson.M{"id": tvShow.ID}, bson.D{{Key: "$set", Value: tvShow}}, &opt,
-			)
-			if err != nil {
-				fmt.Println("could not update TV Show #" + tvShowID)
-			}
-
-			intTVShowID, err := strconv.Atoi(tvShowID)
-			if err != nil {
-				fmt.Println("Could not convert TV Show ID #" + tvShowID)
-				return
-			}
-
-			messageData := models.MessageData{
-				MessageID:    msg.ID,
-				Type:         models.TD,
-				ContentId:    intTVShowID,
-				ContentTitle: tvShow.Name,
-			}
-			_, err = db.MessagesDataCollection.InsertOne(ctx, messageData)
-			if err != nil {
-				fmt.Println("could save message data for tv-show #" + tvShowID)
-			}
+			helpers.UpdateTVShowDetail(tvShow, msg)
 		}()
 
 		if err != nil {

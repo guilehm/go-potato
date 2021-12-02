@@ -2,8 +2,6 @@ package handlers
 
 import (
 	"context"
-	"fmt"
-	"strconv"
 	"strings"
 	"time"
 
@@ -157,35 +155,6 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 	_ = s.MessageReactionAdd(m.ChannelID, message.ID, "❤️")
 
 	go func() {
-
-		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		defer cancel()
-
-		upsert := true
-		opt := options.UpdateOptions{Upsert: &upsert}
-
-		_, err := db.TVShowsCollection.UpdateOne(
-			ctx, bson.M{"id": tvShow.ID}, bson.D{{Key: "$set", Value: tvShow}}, &opt,
-		)
-		if err != nil {
-			fmt.Println("could not update TV Show #" + tvShowID)
-		}
-
-		intTVShowID, err := strconv.Atoi(tvShowID)
-		if err != nil {
-			fmt.Println("Could not convert TV Show ID #" + tvShowID)
-			return
-		}
-
-		messageData := models.MessageData{
-			MessageID:    message.ID,
-			Type:         models.TD,
-			ContentId:    intTVShowID,
-			ContentTitle: tvShow.Name,
-		}
-		_, err = db.MessagesDataCollection.InsertOne(ctx, messageData)
-		if err != nil {
-			fmt.Println("could save message data for tv-show #" + tvShowID)
-		}
+		helpers.UpdateTVShowDetail(tvShow, message)
 	}()
 }
