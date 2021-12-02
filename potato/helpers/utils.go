@@ -158,3 +158,11 @@ func MakeTVShowSearchResultTitles(sr models.TVSearchResponse) string {
 	}
 	return strings.Join(resultTitles, "\n")
 }
+
+func MakeTVShowSearchResultIdsMap(sr models.TVSearchResponse) (idsMap map[int]int) {
+	idsMap = make(map[int]int)
+	for index, result := range sr.Results {
+		idsMap[index+1] = result.ID
+	}
+	return
+}
