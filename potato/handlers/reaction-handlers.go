@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strconv"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -195,5 +196,46 @@ func HandleLikeRemove(s *discordgo.Session, r *discordgo.MessageReactionRemove) 
 }
 
 func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	fmt.Println("202")
+
+	message := models.MessageData{}
+	if err := db.MessagesDataCollection.FindOne(
+		ctx,
+		bson.M{"message_id": r.MessageID},
+	).Decode(&message); err != nil {
+		fmt.Printf("Could not find message #%v\n", r.MessageID)
+		return
+	}
+
+	fmt.Println("213")
+	emojiIndex := 0
+	for key, value := range models.EmojiNumbersMap {
+		if r.Emoji.Name == value {
+			emojiIndex = key
+			break
+		}
+	}
+	fmt.Println("202")
+
+	if message.Type == models.T {
+		tvShowID := strconv.Itoa(message.IDsMap[emojiIndex])
+		tvShow, err := service.GetTVShowDetail(tvShowID)
+		if err != nil {
+			_, _ = s.ChannelMessageSend(r.ChannelID, "Could not get tv show detail: "+err.Error())
+			return
+		}
+
+		msg, err := s.ChannelMessageSendEmbed(
+			r.ChannelID,
+			helpers.GetEmbedForTVShow(tvShow),
+		)
+		if err != nil {
+			_, _ = s.ChannelMessageSend(r.ChannelID, "Ops... Something weird happened")
+		}
+		_ = s.MessageReactionAdd(r.ChannelID, msg.ID, "❤️")
+	}
 
 }
