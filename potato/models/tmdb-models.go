@@ -68,7 +68,7 @@ type TVShowResult struct {
 	LastEpisodeToAir    Episode             `json:"last_episode_to_air"`
 	Name                string              `json:"name"`
 	NextEpisodeToAir    Episode             `json:"next_episode_to_air"`
-	Networks            []Networks          `json:"networks"`
+	Networks            []Network           `json:"networks"`
 	NumberOfEpisodes    int                 `json:"number_of_episodes"`
 	NumberOfSeasons     int                 `json:"number_of_seasons"`
 	OriginCountry       []string            `json:"origin_country"`
@@ -114,7 +114,7 @@ type Episode struct {
 	VoteCount      int     `json:"vote_count"`
 }
 
-type Networks struct {
+type Network struct {
 	Name          string `json:"name"`
 	ID            int    `json:"id"`
 	LogoPath      string `json:"logo_path"`
