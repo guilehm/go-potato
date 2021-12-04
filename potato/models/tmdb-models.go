@@ -150,9 +150,9 @@ type SpokenLanguage struct {
 }
 
 type MovieResult struct {
-	Adult               bool                `json:"adult"`
-	BackdropPath        interface{}         `json:"backdrop_path"`
-	BelongsToCollection interface{}         `json:"belongs_to_collection"`
+	Adult        bool   `json:"adult"`
+	BackdropPath string `json:"backdrop_path"`
+	// BelongsToCollection interface{}         `json:"belongs_to_collection"`
 	Budget              int                 `json:"budget"`
 	Genres              []Genres            `json:"genres"`
 	Homepage            string              `json:"homepage"`
@@ -162,7 +162,7 @@ type MovieResult struct {
 	OriginalTitle       string              `json:"original_title"`
 	Overview            string              `json:"overview"`
 	Popularity          float64             `json:"popularity"`
-	PosterPath          interface{}         `json:"poster_path"`
+	PosterPath          string              `json:"poster_path"`
 	ProductionCompanies []ProductionCompany `json:"production_companies"`
 	ProductionCountries []ProductionCountry `json:"production_countries"`
 	ReleaseDate         string              `json:"release_date"`
