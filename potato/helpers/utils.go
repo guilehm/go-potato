@@ -137,6 +137,67 @@ func GetEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed {
 
 }
 
+func GetEmbedForMovie(movie models.MovieResult) *discordgo.MessageEmbed {
+	embedImage := &discordgo.MessageEmbedImage{
+		URL:      "https://www.themoviedb.org/t/p/w300" + movie.BackdropPath,
+		ProxyURL: "",
+		Width:    300,
+		Height:   169,
+	}
+	thumbnail := &discordgo.MessageEmbedThumbnail{
+		URL:      "https://www.themoviedb.org/t/p/w300" + movie.PosterPath,
+		ProxyURL: "",
+		Width:    300,
+		Height:   169,
+	}
+
+	embedFields := []*discordgo.MessageEmbedField{
+		{
+			Name:   "Status",
+			Value:  movie.Status,
+			Inline: true,
+		},
+		{
+			Name:   "User Score",
+			Value:  fmt.Sprintf("%.0f", movie.VoteAverage*10) + "%",
+			Inline: true,
+		},
+		{
+			Name:   "Budget",
+			Value:  strconv.Itoa(movie.Budget),
+			Inline: true,
+		},
+	}
+
+	if movie.Tagline != "" {
+		embedFields = append(
+			[]*discordgo.MessageEmbedField{
+				{
+					Name:   "Tagline",
+					Value:  movie.Tagline,
+					Inline: false,
+				},
+			},
+			embedFields...,
+		)
+	}
+
+	return MakeEmbed(
+		fmt.Sprintf(
+			"%v/%v-%v",
+			"https://www.themoviedb.org/movie",
+			movie.ID,
+			strings.ReplaceAll(movie.Title, " ", "-"),
+		),
+		movie.Title,
+		movie.Overview,
+		embedImage,
+		embedFields,
+		thumbnail,
+	)
+
+}
+
 func MakeMovieSearchResultTitles(mr models.MovieSearchResponse) string {
 	resultTitles := make([]string, len(mr.Results))
 	for index, result := range mr.Results {
