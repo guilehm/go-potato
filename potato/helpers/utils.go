@@ -166,3 +166,11 @@ func MakeTVShowSearchResultIdsMap(sr models.TVSearchResponse) (idsMap map[int]in
 	}
 	return
 }
+
+func MakeMovieSearchResultIdsMap(sr models.MovieSearchResponse) (idsMap map[int]int) {
+	idsMap = make(map[int]int)
+	for index, result := range sr.Results {
+		idsMap[index+1] = result.ID
+	}
+	return
+}
