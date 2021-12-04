@@ -43,3 +43,35 @@ func UpdateTVShowDetail(tvShow models.TVShowResult, message *discordgo.Message) 
 		fmt.Println("could save message data for tv-show #", tvShow.ID)
 	}
 }
+
+func UpdateMovieDetail(movie models.MovieResult, message *discordgo.Message) {
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	upsert := true
+	opt := options.UpdateOptions{Upsert: &upsert}
+
+	_, err := db.MoviesCollection.UpdateOne(
+		ctx, bson.M{"id": movie.ID}, bson.D{{Key: "$set", Value: movie}}, &opt,
+	)
+	if err != nil {
+		fmt.Println("could not update Movie #", movie.ID)
+	}
+
+	if err != nil {
+		fmt.Println("Could not convert Movie ID #", movie.ID)
+		return
+	}
+
+	messageData := models.MessageData{
+		MessageID:    message.ID,
+		Type:         models.TD,
+		ContentId:    movie.ID,
+		ContentTitle: movie.Title,
+	}
+	_, err = db.MessagesDataCollection.InsertOne(ctx, messageData)
+	if err != nil {
+		fmt.Println("could save message data for movie #", movie.ID)
+	}
+}
