@@ -150,9 +150,9 @@ type SpokenLanguage struct {
 }
 
 type MovieResult struct {
-	Adult        bool   `json:"adult"`
-	BackdropPath string `json:"backdrop_path"`
-	// BelongsToCollection interface{}         `json:"belongs_to_collection"`
+	Adult               bool                `json:"adult"`
+	BackdropPath        string              `json:"backdrop_path"`
+	BelongsToCollection Collection          `json:"belongs_to_collection"`
 	Budget              int                 `json:"budget"`
 	Genres              []Genres            `json:"genres"`
 	Homepage            string              `json:"homepage"`
