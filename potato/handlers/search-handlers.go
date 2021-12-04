@@ -29,6 +29,7 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	resultTitles := helpers.MakeMovieSearchResultTitles(searchResponse)
+	resultIdsMap := helpers.MakeMovieSearchResultIdsMap(searchResponse)
 	message, err := s.ChannelMessageSendEmbed(
 		m.ChannelID,
 		helpers.MakeEmbed(
@@ -55,6 +56,7 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 				Page:       1,
 				TotalPages: searchResponse.TotalPages,
 				Type:       models.M,
+				IDsMap:     resultIdsMap,
 			}
 			_, err = db.MessagesDataCollection.UpdateOne(
 				ctx, bson.M{"message_id": message.ID}, bson.D{{Key: "$set", Value: &messageData}}, &opt,
