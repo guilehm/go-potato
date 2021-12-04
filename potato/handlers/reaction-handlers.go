@@ -216,7 +216,6 @@ func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		}
 	}
 
-	// TODO: Add condition for movies
 	if message.Type == models.T {
 		intTVShowID := message.IDsMap[emojiIndex]
 		tvShowID := strconv.Itoa(intTVShowID)
@@ -249,6 +248,41 @@ func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		_, err = db.MessagesDataCollection.InsertOne(ctx, messageData)
 		if err != nil {
 			fmt.Println("could save message data for tv-show #" + tvShowID)
+		}
+	}
+
+	if message.Type == models.M {
+		intMovieID := message.IDsMap[emojiIndex]
+		movieID := strconv.Itoa(intMovieID)
+		movie, err := service.GetMovieDetail(movieID)
+		if err != nil {
+			_, _ = s.ChannelMessageSend(r.ChannelID, "Could not get movie detail: "+err.Error())
+			return
+		}
+
+		msg, err := s.ChannelMessageSendEmbed(
+			r.ChannelID,
+			helpers.GetEmbedForMovie(movie),
+		)
+
+		go func() {
+			helpers.UpdateMovieDetail(movie, msg)
+		}()
+
+		if err != nil {
+			_, _ = s.ChannelMessageSend(r.ChannelID, "Ops... Something weird happened")
+		}
+		_ = s.MessageReactionAdd(r.ChannelID, msg.ID, "❤️")
+
+		messageData := models.MessageData{
+			MessageID:    msg.ID,
+			Type:         models.TD,
+			ContentId:    intMovieID,
+			ContentTitle: movie.Title,
+		}
+		_, err = db.MessagesDataCollection.InsertOne(ctx, messageData)
+		if err != nil {
+			fmt.Println("could save message data for movie #" + movieID)
 		}
 	}
 
