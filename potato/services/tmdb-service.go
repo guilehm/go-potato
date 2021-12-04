@@ -63,6 +63,19 @@ func (t *TMDBService) GetTVShowDetail(id string) (models.TVShowResult, error) {
 	return tvShow, nil
 }
 
+func (t *TMDBService) GetMovieDetail(id string) (models.MovieResult, error) {
+	var movie models.MovieResult
+	body, err := t.makeRequest("movie/"+id, nil)
+	if err != nil {
+		return movie, err
+	}
+
+	if err = json.Unmarshal(body, &movie); err != nil {
+		return movie, err
+	}
+	return movie, nil
+}
+
 func (t *TMDBService) makeRequest(endpoint string, queries url.Values) ([]byte, error) {
 	u, err := url.Parse(fmt.Sprintf("%v%v", BaseApiUrl, endpoint))
 	if err != nil {
