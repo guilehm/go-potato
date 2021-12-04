@@ -149,6 +149,13 @@ type SpokenLanguage struct {
 	Name        string `json:"name"`
 }
 
+type Collection struct {
+	ID           int    `json:"id"`
+	Name         string `json:"name"`
+	PosterPath   string `json:"poster_path"`
+	BackdropPath string `json:"backdrop_path"`
+}
+
 type MovieResult struct {
 	Adult               bool                `json:"adult"`
 	BackdropPath        string              `json:"backdrop_path"`
