@@ -229,15 +229,14 @@ func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 			r.ChannelID,
 			helpers.GetEmbedForTVShow(tvShow),
 		)
-
-		go func() {
-			helpers.UpdateTVShowDetail(tvShow, msg)
-		}()
-
 		if err != nil {
 			_, _ = s.ChannelMessageSend(r.ChannelID, "Ops... Something weird happened")
 		}
 		_ = s.MessageReactionAdd(r.ChannelID, msg.ID, "❤️")
+
+		go func() {
+			helpers.UpdateTVShowDetail(tvShow, msg)
+		}()
 
 		messageData := models.MessageData{
 			MessageID:    msg.ID,
