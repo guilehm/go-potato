@@ -198,6 +198,13 @@ func GetEmbedForMovie(movie models.MovieResult) *discordgo.MessageEmbed {
 
 }
 
+func min(x, y int) int {
+	if x > y {
+		return y
+	}
+	return x
+}
+
 func MakeMovieSearchResultTitles(mr models.MovieSearchResponse) string {
 	resultTitles := make([]string, len(mr.Results))
 	for index, result := range mr.Results {
