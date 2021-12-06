@@ -208,23 +208,36 @@ func min(x, y int) int {
 }
 
 func MakeMovieSearchResultTitles(mr models.MovieSearchResponse) string {
-	resultTitles := make([]string, len(mr.Results))
-	for index, result := range mr.Results {
-		resultTitles[index] = fmt.Sprintf("%v - %v *(%v)*", index+1, result.Title, result.ID)
+	l := len(mr.Results)
+	m := min(emojiLength, l)
+	resultTitles := make([]string, l)
+	var i string
+	for index, result := range mr.Results[:m] {
+		i = models.EmojiNumbersMap[index+1]
+		resultTitles[index] = fmt.Sprintf("%s - %s", i, result)
+	}
+	for index, result := range mr.Results[m:] {
+		i = strconv.Itoa(index + emojiLength + 1)
+		resultTitles[index+emojiLength] = fmt.Sprintf("%s - %s", i, result)
 	}
 	return strings.Join(resultTitles, "\n")
 }
 
 func MakeTVShowSearchResultTitles(sr models.TVSearchResponse) string {
-	resultTitles := make([]string, len(sr.Results))
+	l := len(sr.Results)
+	m := min(3, l)
+	resultTitles := make([]string, l)
 	var i string
-	for index, result := range sr.Results {
-		if index < 3 {
-			i = models.EmojiNumbersMap[index+1]
-		} else {
-			i = strconv.Itoa(index + 1)
-		}
-		resultTitles[index] = fmt.Sprintf("%v - %v *(%v)*", i, result.Name, result.ID)
+	var index int
+	for _, result := range sr.Results[:m] {
+		i = models.EmojiNumbersMap[index+1]
+		resultTitles[index] = fmt.Sprintf("%s - %s", i, result)
+		index++
+	}
+	for _, result := range sr.Results[m:] {
+		i = strconv.Itoa(index + 1)
+		resultTitles[index] = fmt.Sprintf("%s - %s", i, result)
+		index++
 	}
 	return strings.Join(resultTitles, "\n")
 }
