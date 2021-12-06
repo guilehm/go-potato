@@ -11,6 +11,8 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
+const emojiLength = 3
+
 func MakeEmbed(
 	url,
 	title,
