@@ -1,5 +1,7 @@
 package models
 
+import "fmt"
+
 const (
 	T  string = "tv-show"
 	M  string = "movie"
@@ -24,6 +26,10 @@ type MovieSearchResult struct {
 	VoteCount        int     `json:"vote_count"`
 }
 
+func (m MovieSearchResult) String() string {
+	return fmt.Sprintf("%v *(%v)*", m.Title, m.ID)
+}
+
 type MovieSearchResponse struct {
 	Page         int                 `json:"page"`
 	Results      []MovieSearchResult `json:"results"`
@@ -45,6 +51,10 @@ type TVSearchResult struct {
 	PosterPath       string   `json:"poster_path"`
 	VoteAverage      float64  `json:"vote_average"`
 	VoteCount        int      `json:"vote_count"`
+}
+
+func (t TVSearchResult) String() string {
+	return fmt.Sprintf("%v *(%v)*", t.Name, t.ID)
 }
 
 type TVSearchResponse struct {
