@@ -175,3 +175,28 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 		helpers.UpdateTVShowDetail(tvShow, message)
 	}()
 }
+
+func handleMovieDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
+	_ = s.ChannelTyping(m.ChannelID)
+
+	movieID := strings.Trim(m.Content[4:], " ")
+	movie, err := service.GetMovieDetail(movieID)
+	if err != nil {
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not get tv show detail: "+err.Error())
+		return
+	}
+
+	message, err := s.ChannelMessageSendEmbed(
+		m.ChannelID,
+		helpers.GetEmbedForMovie(movie),
+	)
+	if err != nil {
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Ops... Something weird happened")
+	}
+	_ = s.MessageReactionAdd(m.ChannelID, message.ID, "❤️")
+	_ = s.MessageReactionAdd(m.ChannelID, message.ID, "👪")
+
+	go func() {
+		helpers.UpdateMovieDetail(movie, message)
+	}()
+}
