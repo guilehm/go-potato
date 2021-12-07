@@ -96,6 +96,7 @@ type TVShowResult struct {
 	Type                string              `json:"type"`
 	VoteAverage         float64             `json:"vote_average"`
 	VoteCount           int                 `json:"vote_count"`
+	Credits             Credits             `json:"credits"`
 }
 
 type Creator struct {
