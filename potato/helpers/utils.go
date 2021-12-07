@@ -165,8 +165,8 @@ func GetEmbedForMovie(movie models.MovieResult) *discordgo.MessageEmbed {
 			Inline: true,
 		},
 		{
-			Name:   "Budget",
-			Value:  strconv.Itoa(movie.Budget),
+			Name:   "Released Date",
+			Value:  movie.ReleaseDate,
 			Inline: true,
 		},
 	}
