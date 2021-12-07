@@ -28,7 +28,12 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	resultTitles := helpers.MakeMovieSearchResultTitles(searchResponse.Results)
+	results := make([]interface{}, len(searchResponse.Results))
+	for i, result := range searchResponse.Results {
+		results[i] = result
+	}
+
+	resultTitles := helpers.MakeSearchResultTitles(results)
 	resultIdsMap := helpers.MakeMovieSearchResultIdsMap(searchResponse)
 	message, err := s.ChannelMessageSendEmbed(
 		m.ChannelID,
@@ -91,7 +96,12 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	resultTitles := helpers.MakeTVShowSearchResultTitles(searchResponse.Results)
+	results := make([]interface{}, len(searchResponse.Results))
+	for i, result := range searchResponse.Results {
+		results[i] = result
+	}
+
+	resultTitles := helpers.MakeSearchResultTitles(results)
 	resultIdsMap := helpers.MakeTVShowSearchResultIdsMap(searchResponse)
 	message, err := s.ChannelMessageSendEmbed(
 		m.ChannelID,
