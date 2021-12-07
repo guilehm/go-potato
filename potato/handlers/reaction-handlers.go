@@ -300,3 +300,25 @@ func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	}
 
 }
+
+func HandleCastingAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
+
+	// TODO: HANDLE ERRORS
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	message := models.MessageData{}
+	if err := db.MessagesDataCollection.FindOne(
+		ctx,
+		bson.M{"message_id": r.MessageID},
+	).Decode(&message); err != nil {
+		fmt.Printf("Could not find message #%v\n", r.MessageID)
+		return
+	}
+
+	var movie models.MovieResult
+	_ = db.MoviesCollection.FindOne(ctx, bson.M{"id": message.ContentId}).Decode(&movie)
+
+	_, _ = s.ChannelMessageSendEmbed(r.ChannelID, helpers.GetEmbedForCast(movie))
+}
