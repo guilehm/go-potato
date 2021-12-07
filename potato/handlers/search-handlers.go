@@ -169,6 +169,7 @@ func handleTVShowDetail(s *discordgo.Session, m *discordgo.MessageCreate) {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Ops... Something weird happened")
 	}
 	_ = s.MessageReactionAdd(m.ChannelID, message.ID, "❤️")
+	_ = s.MessageReactionAdd(m.ChannelID, message.ID, "👪")
 
 	go func() {
 		helpers.UpdateTVShowDetail(tvShow, message)
