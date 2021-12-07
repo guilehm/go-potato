@@ -200,6 +200,46 @@ func GetEmbedForMovie(movie models.MovieResult) *discordgo.MessageEmbed {
 
 }
 
+func GetEmbedForCast(movie models.MovieResult) *discordgo.MessageEmbed {
+
+	var embedFields []*discordgo.MessageEmbedField
+
+	for _, person := range movie.Credits.Cast {
+		embedFields = append(
+			embedFields,
+			&discordgo.MessageEmbedField{
+				Name:   "Character",
+				Value:  person.Character,
+				Inline: false,
+			},
+			&discordgo.MessageEmbedField{
+				Name:   "Name",
+				Value:  person.Name,
+				Inline: true,
+			},
+			&discordgo.MessageEmbedField{
+				Name:   "Popularity",
+				Value:  fmt.Sprintf("%v", person.Popularity),
+				Inline: true,
+			})
+	}
+
+	return MakeEmbed(
+		fmt.Sprintf(
+			"%v/%v-%v",
+			"https://www.themoviedb.org/movie",
+			movie.ID,
+			strings.ReplaceAll(movie.Title, " ", "-"),
+		),
+		fmt.Sprintf("Cast for %v", movie.Title),
+		"",
+		nil,
+		embedFields,
+		nil,
+	)
+
+}
+
 func min(x, y int) int {
 	if x > y {
 		return y
