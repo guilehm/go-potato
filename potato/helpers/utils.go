@@ -207,7 +207,7 @@ func min(x, y int) int {
 	return x
 }
 
-func MakeMovieSearchResultTitles(results []models.MovieSearchResult) string {
+func MakeSearchResultTitles(results []interface{}) string {
 	l := len(results)
 	m := min(emojiLength, l)
 	resultTitles := make([]string, l)
@@ -219,25 +219,6 @@ func MakeMovieSearchResultTitles(results []models.MovieSearchResult) string {
 	for index, result := range results[m:] {
 		i = strconv.Itoa(index + emojiLength + 1)
 		resultTitles[index+emojiLength] = fmt.Sprintf("%s - %s", i, result)
-	}
-	return strings.Join(resultTitles, "\n")
-}
-
-func MakeTVShowSearchResultTitles(results []models.TVSearchResult) string {
-	l := len(results)
-	m := min(3, l)
-	resultTitles := make([]string, l)
-	var i string
-	var index int
-	for _, result := range results[:m] {
-		i = models.EmojiNumbersMap[index+1]
-		resultTitles[index] = fmt.Sprintf("%s - %s", i, result)
-		index++
-	}
-	for _, result := range results[m:] {
-		i = strconv.Itoa(index + 1)
-		resultTitles[index] = fmt.Sprintf("%s - %s", i, result)
-		index++
 	}
 	return strings.Join(resultTitles, "\n")
 }
