@@ -23,6 +23,8 @@ func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		HandleLikeAdd(s, r)
 	case "1️⃣", "2️⃣", "3️⃣":
 		HandleNumberAdd(s, r)
+	case "👪":
+		HandleCastingAdd(s, r)
 	}
 }
 
