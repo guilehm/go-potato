@@ -50,7 +50,13 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		if err != nil {
 			return
 		}
-		resultTitles = helpers.MakeTVShowSearchResultTitles(searchResponse.Results)
+
+		results := make([]interface{}, len(searchResponse.Results))
+		for i, result := range searchResponse.Results {
+			results[i] = result
+		}
+		resultTitles = helpers.MakeSearchResultTitles(results)
+
 		title = "TV Shows found:"
 		srPage = searchResponse.Page
 		srTotalPages = searchResponse.TotalPages
@@ -61,7 +67,13 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 			return
 		}
 		title = "Movies found:"
-		resultTitles = helpers.MakeMovieSearchResultTitles(searchResponse.Results)
+
+		results := make([]interface{}, len(searchResponse.Results))
+		for i, result := range searchResponse.Results {
+			results[i] = result
+		}
+		resultTitles = helpers.MakeSearchResultTitles(results)
+
 		srPage = searchResponse.Page
 		srTotalPages = searchResponse.TotalPages
 		rCount = len(searchResponse.Results)
