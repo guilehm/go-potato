@@ -226,4 +226,5 @@ type MovieResult struct {
 	Video               bool                `json:"video"`
 	VoteAverage         float64             `json:"vote_average"`
 	VoteCount           int                 `json:"vote_count"`
+	Credits             Credits             `json:"credits"`
 }
