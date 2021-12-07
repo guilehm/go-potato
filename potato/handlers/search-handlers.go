@@ -28,7 +28,7 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	resultTitles := helpers.MakeMovieSearchResultTitles(searchResponse)
+	resultTitles := helpers.MakeMovieSearchResultTitles(searchResponse.Results)
 	resultIdsMap := helpers.MakeMovieSearchResultIdsMap(searchResponse)
 	message, err := s.ChannelMessageSendEmbed(
 		m.ChannelID,
@@ -91,7 +91,7 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	resultTitles := helpers.MakeTVShowSearchResultTitles(searchResponse)
+	resultTitles := helpers.MakeTVShowSearchResultTitles(searchResponse.Results)
 	resultIdsMap := helpers.MakeTVShowSearchResultIdsMap(searchResponse)
 	message, err := s.ChannelMessageSendEmbed(
 		m.ChannelID,
