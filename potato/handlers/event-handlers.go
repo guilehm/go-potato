@@ -57,6 +57,11 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
+	if strings.HasPrefix(m.Content, ".md ") {
+		handleMovieDetail(s, m)
+		return
+	}
+
 	if strings.HasPrefix(m.Content, ".t ") {
 		handleSearchTVShows(s, m)
 		return
