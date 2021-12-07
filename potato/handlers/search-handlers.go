@@ -70,6 +70,10 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if searchResponse.Page > 1 {
 		_ = s.MessageReactionAdd(m.ChannelID, message.ID, "⏮️")
 	}
+
+	for i := 1; i <= len(searchResponse.Results) && i <= 3; i++ {
+		err = s.MessageReactionAdd(m.ChannelID, message.ID, models.EmojiNumbersMap[i])
+	}
 }
 
 func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
