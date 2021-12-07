@@ -52,7 +52,8 @@ func (t *TMDBService) SearchTvShows(text string, page int) (models.TVSearchRespo
 
 func (t *TMDBService) GetTVShowDetail(id string) (models.TVShowResult, error) {
 	var tvShow models.TVShowResult
-	body, err := t.makeRequest("tv/"+id, nil)
+	q := url.Values{"append_to_response": []string{"credits"}}
+	body, err := t.makeRequest("tv/"+id, q)
 	if err != nil {
 		return tvShow, err
 	}
@@ -65,7 +66,8 @@ func (t *TMDBService) GetTVShowDetail(id string) (models.TVShowResult, error) {
 
 func (t *TMDBService) GetMovieDetail(id string) (models.MovieResult, error) {
 	var movie models.MovieResult
-	body, err := t.makeRequest("movie/"+id, nil)
+	q := url.Values{"append_to_response": []string{"credits"}}
+	body, err := t.makeRequest("movie/"+id, q)
 	if err != nil {
 		return movie, err
 	}
