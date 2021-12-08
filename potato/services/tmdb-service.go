@@ -12,7 +12,7 @@ import (
 	"github.com/guilehm/go-potato/models"
 )
 
-const BaseApiUrl = "https://api.themoviedb.org/3/"
+const BaseAPIURL = "https://api.themoviedb.org/3/"
 
 var ErrNotFound = errors.New("not found")
 
@@ -79,7 +79,7 @@ func (t *TMDBService) GetMovieDetail(id string) (models.MovieResult, error) {
 }
 
 func (t *TMDBService) makeRequest(endpoint string, queries url.Values) ([]byte, error) {
-	u, err := url.Parse(fmt.Sprintf("%v%v", BaseApiUrl, endpoint))
+	u, err := url.Parse(fmt.Sprintf("%v%v", BaseAPIURL, endpoint))
 	if err != nil {
 		return nil, err
 	}
