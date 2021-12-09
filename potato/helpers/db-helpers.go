@@ -66,7 +66,7 @@ func UpdateMovieDetail(movie models.MovieResult, message *discordgo.Message) {
 
 	messageData := models.MessageData{
 		MessageID:    message.ID,
-		Type:         models.TD,
+		Type:         models.MD,
 		ContentId:    movie.ID,
 		ContentTitle: movie.Title,
 	}
