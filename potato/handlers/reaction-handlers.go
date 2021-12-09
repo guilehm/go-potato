@@ -315,17 +315,45 @@ func HandleCastingAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		return
 	}
 
-	var movie models.MovieResult
-	if err := db.MoviesCollection.FindOne(
-		ctx,
-		bson.M{"id": message.ContentId},
-	).Decode(&movie); err != nil {
-		_, _ = s.ChannelMessageSend(r.ChannelID, "Could not find the requested movie")
-		return
+	if message.Type == models.MD {
+		var movie models.MovieResult
+		if err := db.MoviesCollection.FindOne(
+			ctx,
+			bson.M{"id": message.ContentId},
+		).Decode(&movie); err != nil {
+			_, _ = s.ChannelMessageSend(r.ChannelID, "Could not find the requested movie")
+			return
+		}
+
+		_, err := s.ChannelMessageSendEmbed(
+			r.ChannelID,
+			helpers.GetEmbedForCast(movie.Credits.Cast, movie.ID, movie.Title),
+		)
+		if err != nil {
+			fmt.Println("could not send message for channel: " + r.ChannelID)
+		}
+
 	}
 
-	_, err := s.ChannelMessageSendEmbed(r.ChannelID, helpers.GetEmbedForCast(movie))
-	if err != nil {
-		fmt.Println("could not send message for channel: " + r.ChannelID)
+	if message.Type == models.TD {
+
+		var tvShow models.TVShowResult
+		if err := db.TVShowsCollection.FindOne(
+			ctx,
+			bson.M{"id": message.ContentId},
+		).Decode(&tvShow); err != nil {
+			_, _ = s.ChannelMessageSend(r.ChannelID, "Could not find the requested tv show")
+			return
+		}
+
+		_, err := s.ChannelMessageSendEmbed(
+			r.ChannelID,
+			helpers.GetEmbedForCast(tvShow.Credits.Cast, tvShow.ID, tvShow.Name),
+		)
+		if err != nil {
+			fmt.Println("could not send message for channel: " + r.ChannelID)
+		}
+
 	}
+
 }
