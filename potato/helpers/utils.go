@@ -200,26 +200,16 @@ func GetEmbedForMovie(movie models.MovieResult) *discordgo.MessageEmbed {
 
 }
 
-func GetEmbedForCast(movie models.MovieResult) *discordgo.MessageEmbed {
+func GetEmbedForCast(cast []models.Cast, contentId int, contentTitle string) *discordgo.MessageEmbed {
 
 	var embedFields []*discordgo.MessageEmbedField
 
-	for _, person := range movie.Credits.Cast {
+	for _, person := range cast {
 		embedFields = append(
 			embedFields,
 			&discordgo.MessageEmbedField{
-				Name:   "Character",
-				Value:  person.Character,
-				Inline: false,
-			},
-			&discordgo.MessageEmbedField{
-				Name:   "Name",
+				Name:   person.Character,
 				Value:  person.Name,
-				Inline: true,
-			},
-			&discordgo.MessageEmbedField{
-				Name:   "Popularity",
-				Value:  fmt.Sprintf("%v", person.Popularity),
 				Inline: true,
 			})
 	}
