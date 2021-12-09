@@ -10,7 +10,7 @@ services:
       - ./potato:/go/src/potato
     working_dir: /go/src/potato
     ports:
-      - "8000:80"
+      - "8080:80"
     env_file:
       - .env
     environment:
