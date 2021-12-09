@@ -13,6 +13,7 @@ import (
 )
 
 const BaseAPIURL = "https://api.themoviedb.org/3/"
+const BaseSiteURL = "https://www.themoviedb.org/"
 
 var ErrNotFound = errors.New("not found")
 
