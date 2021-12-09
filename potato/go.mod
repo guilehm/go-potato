@@ -1,6 +1,6 @@
 module github.com/guilehm/go-potato
 
-go 1.17.4
+go 1.17
 
 require (
 	github.com/bwmarrin/discordgo v0.23.2
