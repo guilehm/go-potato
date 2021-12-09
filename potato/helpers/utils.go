@@ -209,7 +209,7 @@ func GetEmbedForCast(cast []models.Cast, contentId int, contentTitle, contentTyp
 			embedFields,
 			&discordgo.MessageEmbedField{
 				Name:   person.Character,
-				Value:  person.Name,
+				Value:  fmt.Sprintf("[%v](https://www.themoviedb.org/person/%v)", person.Name, person.ID),
 				Inline: true,
 			})
 	}
