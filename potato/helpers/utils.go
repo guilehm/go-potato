@@ -218,10 +218,10 @@ func GetEmbedForCast(cast []models.Cast, contentId int, contentTitle string) *di
 		fmt.Sprintf(
 			"%v/%v-%v",
 			"https://www.themoviedb.org/movie",
-			movie.ID,
-			strings.ReplaceAll(movie.Title, " ", "-"),
+			contentId,
+			strings.ReplaceAll(contentTitle, " ", "-"),
 		),
-		fmt.Sprintf("Cast for %v", movie.Title),
+		fmt.Sprintf("Cast for %v", contentTitle),
 		"",
 		nil,
 		embedFields,
