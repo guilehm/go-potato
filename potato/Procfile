@@ -1,2 +1,2 @@
 web: echo "hello potato"
-bot: potato
+bot: go run potato
