@@ -289,7 +289,7 @@ func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 
 		messageData := models.MessageData{
 			MessageID:    msg.ID,
-			Type:         models.TD,
+			Type:         models.MD,
 			ContentId:    intMovieID,
 			ContentTitle: movie.Title,
 		}
