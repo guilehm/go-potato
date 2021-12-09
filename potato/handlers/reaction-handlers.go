@@ -318,7 +318,16 @@ func HandleCastingAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	}
 
 	var movie models.MovieResult
-	_ = db.MoviesCollection.FindOne(ctx, bson.M{"id": message.ContentId}).Decode(&movie)
+	if err := db.MoviesCollection.FindOne(
+		ctx,
+		bson.M{"id": message.ContentId},
+	).Decode(&movie); err != nil {
+		_, _ = s.ChannelMessageSend(r.ChannelID, "Could not find the requested movie")
+		return
+	}
 
-	_, _ = s.ChannelMessageSendEmbed(r.ChannelID, helpers.GetEmbedForCast(movie))
+	_, err := s.ChannelMessageSendEmbed(r.ChannelID, helpers.GetEmbedForCast(movie))
+	if err != nil {
+		fmt.Println("could not send message for channel: " + r.ChannelID)
+	}
 }
