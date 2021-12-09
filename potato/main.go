@@ -3,9 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
-	"os/signal"
-	"syscall"
 
 	"github.com/guilehm/go-potato/handlers"
 
@@ -32,14 +31,16 @@ func main() {
 	discord.AddHandler(handlers.ReactionAdd)
 	discord.AddHandler(handlers.ReactionRemove)
 
-	fmt.Println("Bot is now running.  Press CTRL-C to exit.")
-	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
-	<-sc
+	fmt.Println("Bot is now running.")
 
 	err = discord.Close()
 	if err != nil {
 		return
 	}
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		_, _ = fmt.Fprintf(w, "Hi there!")
+	})
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
 
 }
