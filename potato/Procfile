@@ -1,2 +1,3 @@
 web: echo "hello potato"
-bot: go run potato
+bot: bin/potato
+
