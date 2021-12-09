@@ -1,0 +1,2 @@
+web: echo "hello potato"
+bot: potato
