@@ -6,6 +6,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/guilehm/go-potato/services"
+
 	"github.com/guilehm/go-potato/models"
 
 	"github.com/bwmarrin/discordgo"
@@ -39,8 +41,8 @@ func MakeEmbed(
 		Provider:  nil,
 		Author: &discordgo.MessageEmbedAuthor{
 			Name:         "the movie db",
-			IconURL:      "https://www.themoviedb.org/assets/2/apple-touch-icon-57ed4b3b0450fd5e9a0c20f34e814b82adaa1085c79bdde2f00ca8787b63d2c4.png",
-			URL:          "https://www.themoviedb.org/",
+			IconURL:      services.BaseSiteURL + "assets/2/apple-touch-icon-57ed4b3b0450fd5e9a0c20f34e814b82adaa1085c79bdde2f00ca8787b63d2c4.png",
+			URL:          services.BaseSiteURL,
 			ProxyIconURL: "",
 		},
 		Fields: fields,
@@ -49,7 +51,7 @@ func MakeEmbed(
 
 func GetSimpleEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed {
 	thumbnail := &discordgo.MessageEmbedThumbnail{
-		URL:      "https://www.themoviedb.org/t/p/w300" + tvShow.BackdropPath,
+		URL:      services.BaseSiteURL + "t/p/w300" + tvShow.BackdropPath,
 		ProxyURL: "",
 		Width:    300,
 		Height:   169,
@@ -58,7 +60,7 @@ func GetSimpleEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed
 	return &discordgo.MessageEmbed{
 		URL: fmt.Sprintf(
 			"%v/%v-%v",
-			"https://www.themoviedb.org/tv",
+			services.BaseSiteURL+"tv",
 			tvShow.ID,
 			strings.ReplaceAll(tvShow.Name, " ", "-"),
 		),
@@ -80,13 +82,13 @@ func GetSimpleEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed
 
 func GetEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed {
 	embedImage := &discordgo.MessageEmbedImage{
-		URL:      "https://www.themoviedb.org/t/p/w300" + tvShow.BackdropPath,
+		URL:      services.BaseSiteURL + "t/p/w300" + tvShow.BackdropPath,
 		ProxyURL: "",
 		Width:    300,
 		Height:   169,
 	}
 	thumbnail := &discordgo.MessageEmbedThumbnail{
-		URL:      "https://www.themoviedb.org/t/p/w300" + tvShow.PosterPath,
+		URL:      services.BaseSiteURL + "t/p/w300" + tvShow.PosterPath,
 		ProxyURL: "",
 		Width:    300,
 		Height:   169,
@@ -126,7 +128,7 @@ func GetEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed {
 	return MakeEmbed(
 		fmt.Sprintf(
 			"%v/%v-%v",
-			"https://www.themoviedb.org/tv",
+			services.BaseSiteURL+"tv",
 			tvShow.ID,
 			strings.ReplaceAll(tvShow.Name, " ", "-"),
 		),
@@ -141,13 +143,13 @@ func GetEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed {
 
 func GetEmbedForMovie(movie models.MovieResult) *discordgo.MessageEmbed {
 	embedImage := &discordgo.MessageEmbedImage{
-		URL:      "https://www.themoviedb.org/t/p/w300" + movie.BackdropPath,
+		URL:      services.BaseSiteURL + "t/p/w300" + movie.BackdropPath,
 		ProxyURL: "",
 		Width:    300,
 		Height:   169,
 	}
 	thumbnail := &discordgo.MessageEmbedThumbnail{
-		URL:      "https://www.themoviedb.org/t/p/w300" + movie.PosterPath,
+		URL:      services.BaseSiteURL + "t/p/w300" + movie.PosterPath,
 		ProxyURL: "",
 		Width:    300,
 		Height:   169,
