@@ -1,3 +1,3 @@
-web: echo "hello potato"
+web: potato
 bot: potato
 
