@@ -303,8 +303,6 @@ func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 
 func HandleCastingAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 
-	// TODO: HANDLE ERRORS
-
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
