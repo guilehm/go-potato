@@ -327,7 +327,7 @@ func HandleCastingAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 
 		_, err := s.ChannelMessageSendEmbed(
 			r.ChannelID,
-			helpers.GetEmbedForCast(movie.Credits.Cast, movie.ID, movie.Title),
+			helpers.GetEmbedForCast(movie.Credits.Cast, movie.ID, movie.Title, "movie"),
 		)
 		if err != nil {
 			fmt.Println("could not send message for channel: " + r.ChannelID)
@@ -348,7 +348,7 @@ func HandleCastingAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 
 		_, err := s.ChannelMessageSendEmbed(
 			r.ChannelID,
-			helpers.GetEmbedForCast(tvShow.Credits.Cast, tvShow.ID, tvShow.Name),
+			helpers.GetEmbedForCast(tvShow.Credits.Cast, tvShow.ID, tvShow.Name, "tv"),
 		)
 		if err != nil {
 			fmt.Println("could not send message for channel: " + r.ChannelID)
