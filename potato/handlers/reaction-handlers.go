@@ -331,6 +331,7 @@ func HandleCastingAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		)
 		if err != nil {
 			fmt.Println("could not send message for channel: " + r.ChannelID)
+			fmt.Println(err.Error())
 		}
 
 	}
@@ -352,6 +353,7 @@ func HandleCastingAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		)
 		if err != nil {
 			fmt.Println("could not send message for channel: " + r.ChannelID)
+			fmt.Println(err.Error())
 		}
 
 	}
