@@ -188,10 +188,9 @@ func GetEmbedForMovie(movie models.MovieResult) *discordgo.MessageEmbed {
 
 	return MakeEmbed(
 		fmt.Sprintf(
-			"%v/%v-%v",
-			"https://www.themoviedb.org/movie",
+			"%v/%v",
+			services.BaseSiteURL+"movie",
 			movie.ID,
-			strings.ReplaceAll(movie.Title, " ", "-"),
 		),
 		movie.Title,
 		movie.Overview,
@@ -222,10 +221,9 @@ func GetEmbedForCast(cast []models.Cast, contentId int, contentTitle, contentTyp
 
 	return MakeEmbed(
 		fmt.Sprintf(
-			"%v/%v-%v",
-			"https://www.themoviedb.org/"+contentType,
+			"%v/%v",
+			services.BaseSiteURL+contentType,
 			contentId,
-			strings.ReplaceAll(contentTitle, " ", "-"),
 		),
 		fmt.Sprintf("Cast for %v", contentTitle),
 		"",
