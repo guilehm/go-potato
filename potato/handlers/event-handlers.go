@@ -4,7 +4,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/guilehm/go-potato/services"
+	"github.com/guilehm/go-potato/potato/services"
 
 	"github.com/bwmarrin/discordgo"
 )

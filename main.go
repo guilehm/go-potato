@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/guilehm/go-potato/handlers"
+	"github.com/guilehm/go-potato/potato/handlers"
 
 	"github.com/bwmarrin/discordgo"
 )

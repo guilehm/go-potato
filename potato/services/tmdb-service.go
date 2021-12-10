@@ -9,7 +9,7 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/guilehm/go-potato/models"
+	"github.com/guilehm/go-potato/potato/models"
 )
 
 const BaseAPIURL = "https://api.themoviedb.org/3/"

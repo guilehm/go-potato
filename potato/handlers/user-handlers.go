@@ -6,14 +6,14 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/guilehm/go-potato/helpers"
+	"github.com/guilehm/go-potato/potato/helpers"
 
 	"go.mongodb.org/mongo-driver/mongo"
 
-	"github.com/guilehm/go-potato/models"
+	"github.com/guilehm/go-potato/potato/models"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/guilehm/go-potato/db"
+	"github.com/guilehm/go-potato/potato/db"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )

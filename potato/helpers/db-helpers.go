@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/guilehm/go-potato/db"
-	"github.com/guilehm/go-potato/models"
+	"github.com/guilehm/go-potato/potato/db"
+	"github.com/guilehm/go-potato/potato/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )

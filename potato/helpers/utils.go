@@ -6,9 +6,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/guilehm/go-potato/services"
+	"github.com/guilehm/go-potato/potato/services"
 
-	"github.com/guilehm/go-potato/models"
+	"github.com/guilehm/go-potato/potato/models"
 
 	"github.com/bwmarrin/discordgo"
 )
