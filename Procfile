@@ -1,1 +1,1 @@
-web: go-potato
+worker: go-potato
