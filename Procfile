@@ -1,1 +1,1 @@
-web: potato
+web: go-potato
