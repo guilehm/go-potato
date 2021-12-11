@@ -205,7 +205,7 @@ func GetEmbedForCast(cast []models.Cast, contentId int, contentTitle, contentTyp
 
 	var embedFields []*discordgo.MessageEmbedField
 
-	for _, person := range cast {
+	for _, person := range cast[:20] {
 		character := person.Character
 		if person.Character == "" {
 			character = "-"
