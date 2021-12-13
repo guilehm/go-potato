@@ -257,18 +257,18 @@ func MakeSearchResultTitles(results []interface{}) string {
 	return strings.Join(resultTitles, "\n")
 }
 
-func MakeTVShowSearchResultIdsMap(sr models.TVSearchResponse) (idsMap map[int]int) {
-	idsMap = make(map[int]int)
+func MakeTVShowSearchResultIdsMap(sr models.TVSearchResponse) map[int]int {
+	idsMap := make(map[int]int)
 	for index, result := range sr.Results {
 		idsMap[index+1] = result.ID
 	}
-	return
+	return idsMap
 }
 
-func MakeMovieSearchResultIdsMap(sr models.MovieSearchResponse) (idsMap map[int]int) {
-	idsMap = make(map[int]int)
+func MakeMovieSearchResultIdsMap(sr models.MovieSearchResponse) map[int]int {
+	idsMap := make(map[int]int)
 	for index, result := range sr.Results {
 		idsMap[index+1] = result.ID
 	}
-	return
+	return idsMap
 }
