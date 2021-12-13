@@ -75,9 +75,9 @@ type TVShowResult struct {
 	InProduction        bool                `json:"in_production"`
 	Languages           []string            `json:"languages"`
 	LastAirDate         string              `json:"last_air_date"`
-	LastEpisodeToAir    Episode             `json:"last_episode_to_air"`
+	LastEpisodeToAir    *Episode            `json:"last_episode_to_air"`
 	Name                string              `json:"name"`
-	NextEpisodeToAir    Episode             `json:"next_episode_to_air"`
+	NextEpisodeToAir    *Episode            `json:"next_episode_to_air"`
 	Networks            []Network           `json:"networks"`
 	NumberOfEpisodes    int                 `json:"number_of_episodes"`
 	NumberOfSeasons     int                 `json:"number_of_seasons"`
@@ -96,7 +96,7 @@ type TVShowResult struct {
 	Type                string              `json:"type"`
 	VoteAverage         float64             `json:"vote_average"`
 	VoteCount           int                 `json:"vote_count"`
-	Credits             Credits             `json:"credits"`
+	Credits             *Credits            `json:"credits"`
 }
 
 type Creator struct {
@@ -183,17 +183,17 @@ type Cast struct {
 }
 
 type Crew struct {
-	Adult              bool        `json:"adult"`
-	Gender             int         `json:"gender"`
-	ID                 int         `json:"id"`
-	KnownForDepartment string      `json:"known_for_department"`
-	Name               string      `json:"name"`
-	OriginalName       string      `json:"original_name"`
-	Popularity         float64     `json:"popularity"`
-	ProfilePath        interface{} `json:"profile_path"`
-	CreditID           string      `json:"credit_id"`
-	Department         string      `json:"department"`
-	Job                string      `json:"job"`
+	Adult              bool    `json:"adult"`
+	Gender             int     `json:"gender"`
+	ID                 int     `json:"id"`
+	KnownForDepartment string  `json:"known_for_department"`
+	Name               string  `json:"name"`
+	OriginalName       string  `json:"original_name"`
+	Popularity         float64 `json:"popularity"`
+	ProfilePath        string  `json:"profile_path"`
+	CreditID           string  `json:"credit_id"`
+	Department         string  `json:"department"`
+	Job                string  `json:"job"`
 }
 
 type Credits struct {
@@ -204,7 +204,7 @@ type Credits struct {
 type MovieResult struct {
 	Adult               bool                `json:"adult"`
 	BackdropPath        string              `json:"backdrop_path"`
-	BelongsToCollection Collection          `json:"belongs_to_collection"`
+	BelongsToCollection *Collection         `json:"belongs_to_collection"`
 	Budget              int                 `json:"budget"`
 	Genres              []Genres            `json:"genres"`
 	Homepage            string              `json:"homepage"`
@@ -227,5 +227,5 @@ type MovieResult struct {
 	Video               bool                `json:"video"`
 	VoteAverage         float64             `json:"vote_average"`
 	VoteCount           int                 `json:"vote_count"`
-	Credits             Credits             `json:"credits"`
+	Credits             *Credits            `json:"credits"`
 }
