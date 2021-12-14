@@ -283,15 +283,15 @@ func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 			helpers.GetEmbedForMovie(movie),
 		)
 
-		go func() {
-			helpers.UpdateMovieDetail(movie, msg)
-		}()
-
 		if err != nil {
 			_, _ = s.ChannelMessageSend(r.ChannelID, "Ops... Something weird happened")
 		}
 		_ = s.MessageReactionAdd(r.ChannelID, msg.ID, "❤️")
 		_ = s.MessageReactionAdd(r.ChannelID, msg.ID, "👪")
+
+		go func() {
+			helpers.UpdateMovieDetail(movie, msg)
+		}()
 
 		messageData := models.MessageData{
 			MessageID:    msg.ID,
