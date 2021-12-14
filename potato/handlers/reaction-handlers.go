@@ -45,6 +45,7 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	var rCount int
 	var srPage int
 	var srTotalPages int
+	var idsMap map[int]int
 	if m.Type == models.T {
 		searchResponse, err := service.SearchTvShows(m.Text, page)
 		if err != nil {
@@ -61,6 +62,7 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		srPage = searchResponse.Page
 		srTotalPages = searchResponse.TotalPages
 		rCount = len(searchResponse.Results)
+		idsMap = helpers.MakeTVShowSearchResultIdsMap(searchResponse)
 	} else if m.Type == models.M {
 		searchResponse, err := service.SearchMovies(m.Text, page)
 		if err != nil {
@@ -77,6 +79,7 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		srPage = searchResponse.Page
 		srTotalPages = searchResponse.TotalPages
 		rCount = len(searchResponse.Results)
+		idsMap = helpers.MakeMovieSearchResultIdsMap(searchResponse)
 	} else {
 		return
 	}
@@ -100,7 +103,10 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		_, err = db.MessagesDataCollection.UpdateOne(
 			ctx,
 			bson.M{"message_id": r.MessageID},
-			bson.M{"$inc": bson.M{"page": n}},
+			bson.M{
+				"$inc": bson.M{"page": n},
+				"$set": bson.M{"ids_map": idsMap},
+			},
 		)
 		if err != nil {
 			return
