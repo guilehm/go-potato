@@ -285,6 +285,7 @@ func HandleNumberAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 
 		if err != nil {
 			_, _ = s.ChannelMessageSend(r.ChannelID, "Ops... Something weird happened")
+			fmt.Println(err)
 		}
 		_ = s.MessageReactionAdd(r.ChannelID, msg.ID, "❤️")
 		_ = s.MessageReactionAdd(r.ChannelID, msg.ID, "👪")
