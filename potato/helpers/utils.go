@@ -173,7 +173,7 @@ func GetEmbedForMovie(movie models.MovieResult) *discordgo.MessageEmbed {
 		},
 		{
 			Name:   "Released Date",
-			Value:  movie.ReleaseDate,
+			Value:  releasedDate,
 			Inline: true,
 		},
 	}
