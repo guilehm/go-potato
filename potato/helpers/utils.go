@@ -155,6 +155,11 @@ func GetEmbedForMovie(movie models.MovieResult) *discordgo.MessageEmbed {
 		Height:   169,
 	}
 
+	releasedDate := movie.ReleaseDate
+	if releasedDate == "" {
+		releasedDate = "-"
+	}
+
 	embedFields := []*discordgo.MessageEmbedField{
 		{
 			Name:   "Status",
