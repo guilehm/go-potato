@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"time"
 )
 
 type StockPriceResponse struct {
@@ -27,8 +28,8 @@ type Stock struct {
 		Close    string `json:"close"`
 		Timezone int    `json:"timezone"`
 	} `json:"market_time"`
-	MarketCap     float64 `json:"market_cap"`
-	Price         float64 `json:"price"`
-	ChangePercent float64 `json:"change_percent"`
-	UpdatedAt     string  `json:"updated_at"`
+	MarketCap     float64   `json:"market_cap"`
+	Price         float64   `json:"price"`
+	ChangePercent float64   `json:"change_percent"`
+	UpdatedAt     time.Time `json:"updated_at"`
 }
