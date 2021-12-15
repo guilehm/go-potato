@@ -9,4 +9,4 @@
 
 Search for Movies and TV Shows. Save your like list. Get info.
 
-![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/33688752/145656893-8323de23-4625-4713-b91a-475787cc7604.gif)
+![ezgif com-gif-maker (3)](https://user-images.githubusercontent.com/33688752/146188493-0d6170f6-b4a3-4afe-9a52-8a8c7e392ad6.gif)
