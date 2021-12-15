@@ -2,6 +2,7 @@ package services
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -55,7 +56,7 @@ func (s StocksService) makeRequest(endpoint string, queries url.Values) ([]byte,
 
 }
 
-func (s StocksService) searchStockPrice(symbol string) (*models.Stock, error) {
+func (s StocksService) SearchStockPrice(symbol string) (*models.Stock, error) {
 	stock := &models.Stock{}
 	q := url.Values{"symbol": []string{symbol}}
 	body, err := s.makeRequest("stock_price", q)
