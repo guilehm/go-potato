@@ -7,23 +7,29 @@ import (
 	"github.com/guilehm/go-potato/potato/models"
 )
 
-func UnmarshallStockPriceResponse(r []byte) (*models.StockPriceResponse, error) {
-	s := &models.StockPriceResponse{}
-	err := json.Unmarshal(r, s)
+const BaseStockAPIURL = "https://api.hgbrasil.com/finance/"
+
+type StocksService struct {
+	SecretKey string
+}
+
+func (s StocksService) unmarshallStockPriceResponse(body []byte) (*models.StockPriceResponse, error) {
+	r := &models.StockPriceResponse{}
+	err := json.Unmarshal(body, r)
 	if err != nil {
 		fmt.Println("Could not unmarshall stock data")
-		return s, err
+		return r, err
 	}
 
 	// Only the first result matters
-	for _, v := range s.Results {
+	for _, v := range r.Results {
 		stock := &models.Stock{}
 		if err := json.Unmarshal(v, stock); err != nil {
 			fmt.Println("Could not unmarshall stock data")
-			return s, err
+			return r, err
 		}
-		s.Stock = stock
+		r.Stock = stock
 		break
 	}
-	return s, nil
+	return r, nil
 }
