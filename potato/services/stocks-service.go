@@ -80,7 +80,7 @@ func (s StocksService) unmarshallStockPriceResponse(body []byte) (*models.StockP
 	r := &models.StockPriceResponse{}
 	err := json.Unmarshal(body, r)
 	if err != nil {
-		fmt.Println("Could not unmarshall stock data")
+		fmt.Println("Could not unmarshall stock data " + err.Error())
 		return r, err
 	}
 
@@ -88,7 +88,7 @@ func (s StocksService) unmarshallStockPriceResponse(body []byte) (*models.StockP
 	for _, v := range r.Results {
 		stock := &models.Stock{}
 		if err := json.Unmarshal(v, stock); err != nil {
-			fmt.Println("Could not unmarshall stock data")
+			fmt.Println("Could not unmarshall stock data " + err.Error())
 			return r, err
 		}
 		r.Stock = stock
