@@ -13,6 +13,10 @@ func handleStockSearch(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	stock, err := stocksService.SearchStockPrice(symbol)
 	if err != nil {
+		_, _ = s.ChannelMessageSend(
+			m.ChannelID,
+			"Could not retrieve data for **"+symbol+"**. Please try again",
+		)
 		return
 	}
 	_ = s.ChannelTyping(m.ChannelID)
