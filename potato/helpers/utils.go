@@ -155,6 +155,11 @@ func GetEmbedForMovie(movie models.MovieResult) *discordgo.MessageEmbed {
 		Height:   169,
 	}
 
+	releasedDate := movie.ReleaseDate
+	if releasedDate == "" {
+		releasedDate = "-"
+	}
+
 	embedFields := []*discordgo.MessageEmbedField{
 		{
 			Name:   "Status",
@@ -168,7 +173,7 @@ func GetEmbedForMovie(movie models.MovieResult) *discordgo.MessageEmbed {
 		},
 		{
 			Name:   "Released Date",
-			Value:  movie.ReleaseDate,
+			Value:  releasedDate,
 			Inline: true,
 		},
 	}
@@ -205,7 +210,8 @@ func GetEmbedForCast(cast []models.Cast, contentId int, contentTitle, contentTyp
 
 	var embedFields []*discordgo.MessageEmbedField
 
-	for _, person := range cast[:20] {
+	offset := min(20, len(cast))
+	for _, person := range cast[:offset] {
 		character := person.Character
 		if person.Character == "" {
 			character = "-"
