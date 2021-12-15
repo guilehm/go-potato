@@ -67,6 +67,11 @@ func (s StocksService) searchStockPrice(symbol string) (*models.Stock, error) {
 	if err != nil {
 		return stock, err
 	}
+
+	if response.Stock.Error {
+		return stock, errors.New("could not get stock data")
+	}
+
 	return response.Stock, nil
 }
 
