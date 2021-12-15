@@ -101,6 +101,9 @@ func (t *TMDBService) makeRequest(endpoint string, queries url.Values) ([]byte, 
 	req.Header.Set("Content-Type", "application/json;charset=utf-8")
 
 	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
 
 	if resp.StatusCode == http.StatusNotFound {
 		return nil, ErrNotFound
