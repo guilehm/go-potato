@@ -55,6 +55,21 @@ func (s StocksService) makeRequest(endpoint string, queries url.Values) ([]byte,
 
 }
 
+func (s StocksService) searchStockPrice(symbol string) (*models.Stock, error) {
+	stock := &models.Stock{}
+	q := url.Values{"symbol": []string{symbol}}
+	body, err := s.makeRequest("stock_price", q)
+	if err != nil {
+		return stock, err
+	}
+
+	response, err := s.unmarshallStockPriceResponse(body)
+	if err != nil {
+		return stock, err
+	}
+	return response.Stock, nil
+}
+
 func (s StocksService) unmarshallStockPriceResponse(body []byte) (*models.StockPriceResponse, error) {
 	r := &models.StockPriceResponse{}
 	err := json.Unmarshal(body, r)
