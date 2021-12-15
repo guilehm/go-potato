@@ -79,4 +79,9 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
+	if strings.HasPrefix(m.Content, ".st") {
+		handleStockSearch(s, m)
+		return
+	}
+
 }
