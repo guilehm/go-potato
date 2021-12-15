@@ -10,6 +10,7 @@ import (
 )
 
 var service = services.TMDBService{AccessToken: os.Getenv("TMDB_ACCESS_TOKEN")}
+var stocksService = services.StocksService{SecretKey: os.Getenv("STOCKS_API_SECRET_KEY")}
 
 func ReactionAdd(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	if r.UserID == s.State.User.ID {
