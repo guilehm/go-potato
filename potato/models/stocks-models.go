@@ -8,12 +8,12 @@ type StockPriceResponse struct {
 	By            string                     `json:"by"`
 	ValidKey      bool                       `json:"valid_key"`
 	Results       map[string]json.RawMessage `json:"results"`
-	Result        *Result                    `json:"result"`
+	Stock         *Stock                     `json:"result"`
 	ExecutionTime int                        `json:"execution_time"`
 	FromCache     bool                       `json:"from_cache"`
 }
 
-type Result struct {
+type Stock struct {
 	Symbol      string `json:"symbol"`
 	Name        string `json:"name"`
 	CompanyName string `json:"company_name"`
