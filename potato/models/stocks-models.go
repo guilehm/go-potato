@@ -32,4 +32,5 @@ type Stock struct {
 	Price         float64   `json:"price"`
 	ChangePercent float64   `json:"change_percent"`
 	UpdatedAt     time.Time `json:"updated_at"`
+	Error         bool      `json:"error"`
 }
