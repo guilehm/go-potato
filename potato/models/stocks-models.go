@@ -10,7 +10,7 @@ type StockPriceResponse struct {
 	ValidKey      bool                       `json:"valid_key"`
 	Results       map[string]json.RawMessage `json:"results"`
 	Stock         *Stock                     `json:"result"`
-	ExecutionTime int                        `json:"execution_time"`
+	ExecutionTime float64                    `json:"execution_time"`
 	FromCache     bool                       `json:"from_cache"`
 }
 
