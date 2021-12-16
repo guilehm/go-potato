@@ -25,7 +25,7 @@ func MakeEmbed(
 	color int,
 ) *discordgo.MessageEmbed {
 	if color == 0 {
-		color = models.BLACK
+		color = models.Black
 	}
 	return &discordgo.MessageEmbed{
 		URL:         url,
@@ -72,7 +72,7 @@ func GetSimpleEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed
 		Title:       tvShow.Name,
 		Description: "",
 		Timestamp:   "",
-		Color:       models.RED,
+		Color:       models.Red,
 		Footer:      nil,
 		Image:       nil,
 		Thumbnail:   thumbnail,
@@ -103,7 +103,7 @@ func GetSimpleEmbedForMovie(movie models.MovieResult) *discordgo.MessageEmbed {
 		Title:       movie.Title,
 		Description: "",
 		Timestamp:   "",
-		Color:       models.FUSCHIA,
+		Color:       models.Fuschia,
 		Footer:      nil,
 		Image:       nil,
 		Thumbnail:   thumbnail,
@@ -172,7 +172,7 @@ func GetEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed {
 		embedImage,
 		embedFields,
 		thumbnail,
-		models.DARK_BLUE,
+		models.DarkBlue,
 	)
 
 }
@@ -238,7 +238,7 @@ func GetEmbedForMovie(movie models.MovieResult) *discordgo.MessageEmbed {
 		embedImage,
 		embedFields,
 		thumbnail,
-		models.DARK_GREEN,
+		models.DarkGreen,
 	)
 
 }
@@ -273,7 +273,7 @@ func GetEmbedForCast(cast []models.Cast, contentId int, contentTitle, contentTyp
 		nil,
 		embedFields,
 		nil,
-		models.YELLOW,
+		models.Yellow,
 	)
 
 }
