@@ -22,14 +22,18 @@ func MakeEmbed(
 	image *discordgo.MessageEmbedImage,
 	fields []*discordgo.MessageEmbedField,
 	thumbnail *discordgo.MessageEmbedThumbnail,
+	color int,
 ) *discordgo.MessageEmbed {
+	if color == 0 {
+		color = models.BLACK
+	}
 	return &discordgo.MessageEmbed{
 		URL:         url,
 		Type:        "",
 		Title:       title,
 		Description: description,
 		Timestamp:   time.Now().Format("2006-01-02 15:04"),
-		Color:       3447003,
+		Color:       color,
 		Footer: &discordgo.MessageEmbedFooter{
 			IconURL:      "",
 			Text:         "go potato",
