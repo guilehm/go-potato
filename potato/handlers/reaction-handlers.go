@@ -46,6 +46,7 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	var srPage int
 	var srTotalPages int
 	var idsMap map[int]int
+	var color int
 	if m.Type == models.T {
 		searchResponse, err := service.SearchTvShows(m.Text, page)
 		if err != nil {
@@ -63,6 +64,7 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		srTotalPages = searchResponse.TotalPages
 		rCount = len(searchResponse.Results)
 		idsMap = helpers.MakeTVShowSearchResultIdsMap(searchResponse)
+		color = models.BLUE
 	} else if m.Type == models.M {
 		searchResponse, err := service.SearchMovies(m.Text, page)
 		if err != nil {
@@ -80,6 +82,7 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		srTotalPages = searchResponse.TotalPages
 		rCount = len(searchResponse.Results)
 		idsMap = helpers.MakeMovieSearchResultIdsMap(searchResponse)
+		color = models.GREEN
 	} else {
 		return
 	}
@@ -91,6 +94,7 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		&discordgo.MessageEmbedImage{},
 		[]*discordgo.MessageEmbedField{},
 		&discordgo.MessageEmbedThumbnail{},
+		color,
 	)
 	msg, err := s.ChannelMessageEditEmbed(r.ChannelID, r.MessageID, embed)
 	if err != nil {
