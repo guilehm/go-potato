@@ -7,14 +7,14 @@ import (
 )
 
 const (
-	BLUE       int = 3447003
-	DARK_BLUE  int = 2123412
-	GREEN      int = 3066993
-	DARK_GREEN int = 2067276
-	FUSCHIA    int = 15418782
-	RED        int = 15548997
-	BLACK      int = 2303786
-	YELLOW     int = 16776960
+	Blue      int = 3447003
+	DarkBlue  int = 2123412
+	Green     int = 3066993
+	DarkGreen int = 2067276
+	Fuschia   int = 15418782
+	Red       int = 15548997
+	Black     int = 2303786
+	Yellow    int = 16776960
 )
 
 var EmojiNumbersMap = map[int]string{
