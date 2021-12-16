@@ -43,7 +43,9 @@ func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 				)
 				return
 			}
-			_, _ = s.ChannelMessageSend(m.ChannelID, "User successfully created!")
+			_, _ = s.ChannelMessageSend(m.ChannelID, fmt.Sprintf(
+				"<@%v> Your user has been created!", m.Author.ID,
+			))
 			return
 		}
 		_, _ = s.ChannelMessageSend(
