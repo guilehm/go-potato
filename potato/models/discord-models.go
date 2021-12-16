@@ -14,6 +14,7 @@ const (
 	FUSCHIA    int = 15418782
 	RED        int = 15548997
 	BLACK      int = 2303786
+	YELLOW     int = 16776960
 )
 
 var EmojiNumbersMap = map[int]string{
