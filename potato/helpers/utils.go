@@ -172,6 +172,7 @@ func GetEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed {
 		embedImage,
 		embedFields,
 		thumbnail,
+		models.DARK_BLUE,
 	)
 
 }
@@ -237,6 +238,7 @@ func GetEmbedForMovie(movie models.MovieResult) *discordgo.MessageEmbed {
 		embedImage,
 		embedFields,
 		thumbnail,
+		models.DARK_GREEN,
 	)
 
 }
@@ -271,6 +273,7 @@ func GetEmbedForCast(cast []models.Cast, contentId int, contentTitle, contentTyp
 		nil,
 		embedFields,
 		nil,
+		models.YELLOW,
 	)
 
 }
