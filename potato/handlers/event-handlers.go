@@ -80,6 +80,11 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
+	if strings.HasPrefix(m.Content, ".ml") {
+		handleMovieLikeList(s, m)
+		return
+	}
+
 	if strings.HasPrefix(m.Content, ".st") {
 		handleStockSearch(s, m)
 		return
