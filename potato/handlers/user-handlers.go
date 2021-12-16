@@ -70,7 +70,10 @@ func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if err != nil {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not update your user")
 	} else {
-		_, _ = s.ChannelMessageSend(m.ChannelID, "User successfully updated!")
+		_, _ = s.ChannelMessageSend(
+			m.ChannelID,
+			fmt.Sprintf("<@%v> Your user has been updated successfully!", m.Author.ID),
+		)
 	}
 
 }
