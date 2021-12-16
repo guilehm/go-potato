@@ -80,6 +80,37 @@ func GetSimpleEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed
 
 }
 
+func GetSimpleEmbedForMovie(movie models.MovieResult) *discordgo.MessageEmbed {
+	thumbnail := &discordgo.MessageEmbedThumbnail{
+		URL:      services.BaseSiteURL + "t/p/w300" + movie.BackdropPath,
+		ProxyURL: "",
+		Width:    300,
+		Height:   169,
+	}
+
+	return &discordgo.MessageEmbed{
+		URL: fmt.Sprintf(
+			"%v/%v-%v",
+			services.BaseSiteURL+"tv",
+			movie.ID,
+			strings.ReplaceAll(movie.Title, " ", "-"),
+		),
+		Type:        "",
+		Title:       movie.Title,
+		Description: "",
+		Timestamp:   "",
+		Color:       15418782,
+		Footer:      nil,
+		Image:       nil,
+		Thumbnail:   thumbnail,
+		Video:       nil,
+		Provider:    nil,
+		Author:      nil,
+		Fields:      nil,
+	}
+
+}
+
 func GetEmbedForTVShow(tvShow models.TVShowResult) *discordgo.MessageEmbed {
 	embedImage := &discordgo.MessageEmbedImage{
 		URL:      services.BaseSiteURL + "t/p/w300" + tvShow.BackdropPath,
