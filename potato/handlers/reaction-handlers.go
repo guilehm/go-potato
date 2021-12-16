@@ -64,7 +64,7 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		srTotalPages = searchResponse.TotalPages
 		rCount = len(searchResponse.Results)
 		idsMap = helpers.MakeTVShowSearchResultIdsMap(searchResponse)
-		color = models.BLUE
+		color = models.Blue
 	} else if m.Type == models.M {
 		searchResponse, err := service.SearchMovies(m.Text, page)
 		if err != nil {
@@ -82,7 +82,7 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		srTotalPages = searchResponse.TotalPages
 		rCount = len(searchResponse.Results)
 		idsMap = helpers.MakeMovieSearchResultIdsMap(searchResponse)
-		color = models.GREEN
+		color = models.Green
 	} else {
 		return
 	}
