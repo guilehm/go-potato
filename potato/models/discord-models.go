@@ -6,6 +6,19 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
+const (
+	WHITE              int = 16777215
+	BLURPLE            int = 5793266
+	GREYPLE            int = 10070709
+	DARK_BUT_NOT_BLACK int = 2895667
+	NOT_QUITE_BLACK    int = 2303786
+	GREEN              int = 5763719
+	YELLOW             int = 16705372
+	FUSCHIA            int = 15418782
+	RED                int = 15548997
+	BLACK              int = 2303786
+)
+
 var EmojiNumbersMap = map[int]string{
 	1: "1️⃣",
 	2: "2️⃣",
