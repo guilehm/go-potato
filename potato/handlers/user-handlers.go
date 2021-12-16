@@ -116,3 +116,47 @@ func handleTVShowLikeList(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 }
+
+func handleMovieLikeList(s *discordgo.Session, m *discordgo.MessageCreate) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	var user models.UserDiscord
+	if err := db.UsersCollection.FindOne(ctx, bson.M{"id": m.Author.ID}).Decode(&user); err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			_, _ = s.ChannelMessageSend(m.ChannelID, "Please say \"hello\" to create your user")
+		}
+		return
+	}
+
+	_, _ = s.ChannelMessageSend(
+		m.ChannelID, fmt.Sprintf(
+			"<@%v> Here is your Movie like list:",
+			user.ID,
+		),
+	)
+
+	opts := options.Find()
+	cur, err := db.MoviesCollection.Find(
+		ctx,
+		bson.M{"id": bson.M{"$in": user.Likes}},
+		opts,
+	)
+	if err != nil {
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Could not find your list")
+		return
+	}
+
+	movies := make([]models.MovieResult, cur.RemainingBatchLength())
+	for cur.Next(ctx) {
+		var movie models.MovieResult
+		err := cur.Decode(&movie)
+		if err != nil {
+			fmt.Println("could not decode movie")
+			continue
+		}
+		movies = append(movies, movie)
+		_, _ = s.ChannelMessageSendEmbed(m.ChannelID, helpers.GetSimpleEmbedForMovie(movie))
+	}
+
+}
