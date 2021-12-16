@@ -39,7 +39,7 @@ func handleHello(s *discordgo.Session, m *discordgo.MessageCreate) {
 			if err != nil {
 				_, _ = s.ChannelMessageSend(
 					m.ChannelID,
-					fmt.Sprintf("Could not create your user. Please try again."),
+					fmt.Sprintf("<@%v> Could not create your user. Please try again.", m.Author.ID),
 				)
 				return
 			}
