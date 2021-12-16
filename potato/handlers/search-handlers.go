@@ -44,7 +44,7 @@ func handleSearchMovies(s *discordgo.Session, m *discordgo.MessageCreate) {
 			&discordgo.MessageEmbedImage{},
 			[]*discordgo.MessageEmbedField{},
 			&discordgo.MessageEmbedThumbnail{},
-			models.GREEN,
+			models.Green,
 		),
 	)
 	if err != nil {
@@ -113,7 +113,7 @@ func handleSearchTVShows(s *discordgo.Session, m *discordgo.MessageCreate) {
 			&discordgo.MessageEmbedImage{},
 			[]*discordgo.MessageEmbedField{},
 			&discordgo.MessageEmbedThumbnail{},
-			models.BLUE,
+			models.Blue,
 		),
 	)
 
