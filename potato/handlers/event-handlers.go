@@ -45,7 +45,7 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	if strings.ToLower(m.Content) == "ping" {
+	if strings.ToLower(m.Content) == ".ping" {
 		handlePing(s, m)
 		return
 	}
