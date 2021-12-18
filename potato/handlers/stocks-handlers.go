@@ -13,9 +13,13 @@ func handleStockSearch(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	stock, err := stocksService.SearchStockPrice(symbol)
 	if err != nil {
+		errorMessage := "Could not retrieve data for **" + symbol + "**. Please try again"
+		if errors.Is(err, services.ErrApiNotSet) {
+			errorMessage = "Ops... Api Key not set!"
+		}
 		_, _ = s.ChannelMessageSend(
 			m.ChannelID,
-			"Could not retrieve data for **"+symbol+"**. Please try again",
+			errorMessage,
 		)
 		return
 	}
