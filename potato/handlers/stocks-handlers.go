@@ -1,7 +1,10 @@
 package handlers
 
 import (
+	"errors"
 	"strings"
+
+	"github.com/guilehm/go-potato/potato/services"
 
 	"github.com/bwmarrin/discordgo"
 )
