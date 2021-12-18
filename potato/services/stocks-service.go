@@ -21,6 +21,9 @@ type StocksService struct {
 }
 
 func (s StocksService) makeRequest(endpoint string, queries url.Values) ([]byte, error) {
+	if s.SecretKey == "" {
+		return nil, ErrApiNotSet
+	}
 	u, err := url.Parse(fmt.Sprintf("%v%v", BaseStockAPIURL, endpoint))
 	if err != nil {
 		return nil, err
