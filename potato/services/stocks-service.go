@@ -14,6 +14,8 @@ import (
 
 const BaseStockAPIURL = "https://api.hgbrasil.com/finance/"
 
+var ErrApiNotSet = errors.New("api key not set")
+
 type StocksService struct {
 	SecretKey string
 }
