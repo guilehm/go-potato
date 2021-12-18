@@ -40,13 +40,16 @@ func HandleNextPrev(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 
 	_ = s.MessageReactionsRemoveAll(r.ChannelID, r.MessageID)
 
-	var resultTitles string
-	var title string
-	var rCount int
-	var srPage int
-	var srTotalPages int
-	var idsMap map[int]int
-	var color int
+	var (
+		resultTitles string
+		title        string
+		rCount       int
+		srPage       int
+		srTotalPages int
+		idsMap       map[int]int
+		color        int
+	)
+
 	if m.Type == models.T {
 		searchResponse, err := service.SearchTvShows(m.Text, page)
 		if err != nil {
