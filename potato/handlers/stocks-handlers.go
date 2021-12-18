@@ -4,7 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"strings"
-	"time"
+
+	"github.com/guilehm/go-potato/potato/models"
 
 	"github.com/guilehm/go-potato/potato/services"
 
@@ -35,7 +36,8 @@ func handleStockSearch(s *discordgo.Session, m *discordgo.MessageCreate) {
 			URL:         stock.Website,
 			Title:       stock.CompanyName,
 			Description: stock.Description,
-			Timestamp:   time.Now().Format("2006-01-02 15:04"),
+			Timestamp:   stock.UpdatedAt,
+			Color:       models.Fuschia,
 			Fields: []*discordgo.MessageEmbedField{
 				{
 					Name:   "Symbol",
