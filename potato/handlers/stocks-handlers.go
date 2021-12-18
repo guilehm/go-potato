@@ -43,7 +43,7 @@ func handleStockSearch(s *discordgo.Session, m *discordgo.MessageCreate) {
 					Inline: true,
 				},
 				{
-					Name:   "CNPJ",
+					Name:   "Document",
 					Value:  stock.Document,
 					Inline: true,
 				},
