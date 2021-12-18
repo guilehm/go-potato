@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"os"
 
 	"github.com/guilehm/go-potato/potato/models"
 )
@@ -30,7 +29,7 @@ func (s StocksService) makeRequest(endpoint string, queries url.Values) ([]byte,
 	}
 
 	q := u.Query()
-	q.Set("key", os.Getenv("STOCKS_API_SECRET_KEY"))
+	q.Set("key", s.SecretKey)
 	for key, values := range queries {
 		for _, v := range values {
 			q.Set(key, v)
