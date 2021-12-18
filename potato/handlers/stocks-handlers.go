@@ -29,30 +29,31 @@ func handleStockSearch(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 	_ = s.ChannelTyping(m.ChannelID)
-	_, _ = s.ChannelMessageSend(m.ChannelID, stock.CompanyName)
-
-	embed := &discordgo.MessageEmbed{
-		URL:         stock.Website,
-		Title:       stock.CompanyName,
-		Description: stock.Description,
-		Timestamp:   time.Now().Format("2006-01-02 15:04"),
-		Fields: []*discordgo.MessageEmbedField{
-			{
-				Name:   "Symbol",
-				Value:  stock.Symbol,
-				Inline: true,
-			},
-			{
-				Name:   "Document",
-				Value:  stock.Document,
-				Inline: true,
-			},
-			{
-				Name:   "Price",
-				Value:  fmt.Sprintf("%.2f", stock.Price),
-				Inline: true,
+	_, _ = s.ChannelMessageSendEmbed(
+		m.ChannelID,
+		&discordgo.MessageEmbed{
+			URL:         stock.Website,
+			Title:       stock.CompanyName,
+			Description: stock.Description,
+			Timestamp:   time.Now().Format("2006-01-02 15:04"),
+			Fields: []*discordgo.MessageEmbedField{
+				{
+					Name:   "Symbol",
+					Value:  stock.Symbol,
+					Inline: true,
+				},
+				{
+					Name:   "CNPJ",
+					Value:  stock.Document,
+					Inline: true,
+				},
+				{
+					Name:   "Price",
+					Value:  fmt.Sprintf("%.2f %s", stock.Price, stock.Currency),
+					Inline: true,
+				},
 			},
 		},
-	}
+	)
 
 }
